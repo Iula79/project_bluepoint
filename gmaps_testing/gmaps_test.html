@@ -27,18 +27,22 @@
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkMWY7n98boa6qEfzTHn24z3C364Ssv0E&callback=initMap">
   </script>
-  <div id="login bar">
+  <div id="logo"><h1>BluePoint Cycling App</h1></div>
+  <div id="login-bar">
     <input type="text" id="username" placeholder="Username">
     <input type="text" id="password" placeholder="Password">
     <button id="login" input-type="submit">LOGIN</submit>
     </div>
     <div id="floating-panel">
-   <input type="text" id="start" placeholder="Start">
-   <input id="end" type="text" placeholder="Finish">
-    <button id="submit" input-type="submit">GO!</button>
+   <input type="text" id="start" placeholder="Start" class="side">
+   <input id="end" type="text" placeholder="Finish" class="side">
+   <input type="checkbox" name="mode" value="Bike">Cycling<br>
+   <input type="checkbox" name="mode" value="Walk">Walking<br>
+   <button id="submit" input-type="submit" class="side">GO!</button>
   </div>
   <div id="map"></div>
    <div id="elevation_chart"></div>
+ </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
 
   <script type="text/javascript" src="app.js">

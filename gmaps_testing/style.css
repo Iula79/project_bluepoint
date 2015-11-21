@@ -1,14 +1,24 @@
 body {
   background-color: rgb(37, 120, 187);
 }
+#logo {
+  position: absolute;
+  text-align: center;
+  margin-left: 200;
+}
+#container{
+  margin: 15px;
+}
 #map {
   margin-top: 50px;
 }
+
 #login-bar{
-  position: absolute;
-  height: 50px;
-  width: 100%;
-  float: right; 
+  height: 25px;
+  float: right;
+  margin: 15px;
+  border: inset;
+  background-color: rgb(182, 182, 182);
 }
 #floating-panel {
   background-color: rgb(182, 182, 182);
@@ -19,5 +29,6 @@ body {
   height: 400px;
   width: 150px;
   margin: 10px;
+  margin-top: 85px;
   text-align: left;
 }
