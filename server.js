@@ -8,6 +8,7 @@ var express = require('express'),
     app = express();
 
 app.use(logger('dev'));
+app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(session({
   secret: "string",
@@ -37,9 +38,9 @@ mongoose.connect('mongodb://localhost/bluepointApp', function(err){
 });
 
 //uncomment when controllers are ready
-// fs.readdirSync('./controllers/').forEach(function(file){
-//   if(file.substr(-3) == '.js') {
-//     route = require('./controllers/' + file);
-//     route.controller(app);
-//   }
-// });
+fs.readdirSync('./controllers/').forEach(function(file){
+  if(file.substr(-3) == '.js') {
+    route = require('./controllers/' + file);
+    route.controller(app);
+  }
+});
