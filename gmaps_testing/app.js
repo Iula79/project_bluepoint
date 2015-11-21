@@ -19,7 +19,21 @@ function initMap() {
   // Create a map and center it on Manhattan.
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 13,
-    center: {lat: 40.771, lng: -73.974}
+    center: {lat: 40.771, lng: -73.974},
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_CENTER
+    },
+    zoomControl: true,
+    zoomControlOptions: {
+        position: google.maps.ControlPosition.LEFT_CENTER
+    },
+    scaleControl: true,
+    streetViewControl: true,
+    streetViewControlOptions: {
+        position: google.maps.ControlPosition.LEFT_TOP
+    }
   });
 
   // Create a renderer for directions and bind it to the map.
@@ -67,6 +81,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
     if (status === google.maps.DirectionsStatus.OK) {
       console.log(response.routes[0].warnings);
       directionsDisplay.setDirections(response);
+      directionsDisplay.setPanel(document.getElementById("directionsPanel"));
       showSteps(response, markerArray, stepDisplay, map);
     } else {
       window.alert('Directions request failed due to ' + status);
