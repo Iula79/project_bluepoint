@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TEST TEST </title>
+  <style type="text/css">
+     html, body { height: 100%; margin: 0; padding: 0; }
+     #map { height: 500px; width: 600px; }
+   </style>
+   <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <script type="text/javascript" src= "http://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+  function loadGoogle() {
+    if(typeof google != 'undefined' && google && google.load)
+    {
+      google.load('visualization', '1', {packages: ['columnchart']});
+    }
+    else {
+      setTimeout(loadGoogle, 30);
+    }
+  }
+  loadGoogle();
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkMWY7n98boa6qEfzTHn24z3C364Ssv0E&callback=initMap">
+  </script>
+  <div id="login bar">
+    <input type="text" id="username" placeholder="Username">
+    <input type="text" id="password" placeholder="Password">
+    <button id="login" input-type="submit">LOGIN</submit>
+    </div>
+    <div id="floating-panel">
+   <input type="text" id="start" placeholder="Start">
+   <input id="end" type="text" placeholder="Finish">
+    <button id="submit" input-type="submit">GO!</button>
+  </div>
+  <div id="map"></div>
+   <div id="elevation_chart"></div>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="app.js">
+</script>
+    <!-- <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkMWY7n98boa6qEfzTHn24z3C364Ssv0E&callback=initMap">
+    </script> -->
+</body>
+</html>

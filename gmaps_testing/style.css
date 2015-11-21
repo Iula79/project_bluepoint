@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(37, 120, 187);
+}
+#map {
+  margin-top: 50px;
+}
+#login-bar{
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  float: right; 
+}
+#floating-panel {
+  background-color: rgb(182, 182, 182);
+  border: inset;
+  display: block;
+  position: relative;
+  float: left;
+  height: 400px;
+  width: 150px;
+  margin: 10px;
+  text-align: left;
+}
