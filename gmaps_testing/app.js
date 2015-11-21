@@ -66,7 +66,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
   // First, remove any existing markers from the map.
   for (var i = 0; i < markerArray.length; i++) {
     markerArray[i].setMap(null);
-  }
+  };
 
   // Retrieve the start and end locations and create a DirectionsRequest using
   // WALKING directions.
@@ -87,9 +87,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
       window.alert('Directions request failed due to ' + status);
     }
   });
-}
-
-
+};
 
 var path = [];
 function showSteps(directionResult, markerArray, stepDisplay, map) {
@@ -119,7 +117,7 @@ function displayPathElevation(path, elevator, map) {
  // Display a polyline of the elevation path.
  new google.maps.Polyline({
    path: path,
-   strokeColor: '#0000CC ',
+   strokeColor: '#7d7df2 ',
    opacity: 0.4,
    map: map
  });
