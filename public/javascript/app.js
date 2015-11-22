@@ -56,9 +56,6 @@ function initMap() {
   };
   document.getElementById('submit').addEventListener('click', onChangeHandler);
 
-  // directionsDisplay.addListener("directions_changed", function() {
-  //   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
-  // });
 }
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
@@ -69,16 +66,18 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
   };
 
   // Retrieve the start and end locations and create a DirectionsRequest using
-  // WALKING directions.
+  // WALKING or BICYCLING directions.
+   var selectedMode = document.getElementById('mode').value;
+
   directionsService.route({
     origin: document.getElementById('start').value,
     destination: document.getElementById('end').value,
-    travelMode: google.maps.TravelMode.BICYCLING,
-    provideRouteAlternatives: true
+    provideRouteAlternatives: true,
+    travelMode: google.maps.TravelMode[selectedMode]
   }, function(response, status) {
     // Route the directions and pass the response to a function to create
     // markers for each step.
-    if (status === google.maps.DirectionsStatus.OK) {
+    if (status == google.maps.DirectionsStatus.OK) {
       console.log(response.routes[0].warnings);
       directionsDisplay.setDirections(response);
       directionsDisplay.setPanel(document.getElementById("directionsPanel"));
@@ -87,7 +86,11 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
       window.alert('Directions request failed due to ' + status);
     }
   });
+// directionsDisplay.addListener("directions_changed", function() {
+//   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
+// });
 };
+
 
 var path = [];
 function showSteps(directionResult, markerArray, stepDisplay, map) {

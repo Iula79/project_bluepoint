@@ -5,7 +5,8 @@ var express = require('express'),
     fs = require('fs'),
     bcrypt = require('bcrypt'),
     session = require('express-session'),
-    app = express();
+    app = express(),
+    apiKey = process.env.GOOGLE_MAPS_API;
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false}));
