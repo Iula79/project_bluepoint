@@ -3,7 +3,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     fs = require('fs'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
     session = require('express-session'),
     app = express();
 
@@ -17,20 +17,19 @@ app.use(session({
 }));
 
 //uncomment if using public folder static files
-//app.use(express.static('./public'));
+app.use(express.static('./public'));
 
-app.listen(3000, function(req, res){
+app.listen(3000, function(req, res) {
   console.log("Bluepoint listening on 3000");
 });
 
-
 //keep until public files created
-app.get('/', function(req, res){
+app.get('/', function(req, res) {
   res.send('connected via server.js route');
 });
 
-mongoose.connect('mongodb://localhost/bluepointApp', function(err){
-  if(err){
+mongoose.connect('mongodb://localhost/bluepointApp', function(err) {
+  if (err) {
     console.log('connection error', err);
   } else {
     console.log('connection successful');
@@ -38,8 +37,8 @@ mongoose.connect('mongodb://localhost/bluepointApp', function(err){
 });
 
 //uncomment when controllers are ready
-fs.readdirSync('./controllers/').forEach(function(file){
-  if(file.substr(-3) == '.js') {
+fs.readdirSync('./controllers/').forEach(function(file) {
+  if (file.substr(-3) == '.js') {
     route = require('./controllers/' + file);
     route.controller(app);
   }
