@@ -32,17 +32,9 @@ UserSchema.pre('save', function(next) {
   });
 });
 
-<<<<<<< HEAD
-UserSchema.methods.comparePassword = function(userPassword, cb) {
-  bcrypt.compare(userPassword, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-=======
-
-
 UserSchema.methods.comparePassword = function (userPassword, cb) {
   bcrypt.compare(userPassword, this.password, function (err, isMatch) {
     if(err) return cb(err);
->>>>>>> bcc9487735e69cba28c2bf6982ebd588fe886012
     cb(null, isMatch);
   });
 };
