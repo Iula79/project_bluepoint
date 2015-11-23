@@ -10,17 +10,14 @@ app.get('/users', function(req, res) {
   });
 });
 
-
-
 var restrictAccess = function (req, res, next) {
  var sessionId = req.session.currentUser;
  var reqId = req.params.id;
  sessionId = reqId ? next() : res.status(400).send({err: 400, msg: "You shall not pass"});
 };
-var authenticate = function (req, res, next) {
- req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "log in troll"});
+ var authenticate = function (req, res, next) {
+    req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "log in troll"});
 };
-
 
   app.get('/users/:id', authenticate, restrictAccess, function(req, res) {
   User.findById(req.params.id).exec(function(err, user) {
