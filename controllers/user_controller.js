@@ -1,12 +1,15 @@
 var mongoose = require('mongoose'),
-User = require('../models/user.js');
+User = require('../models/user.js'),
+Broute = require('../models/broutes.js');
 
 module.exports.controller = function(app) {
 app.get('/users', function(req, res) {
-  User.find().exec(function (err, users) {
+  User.find().populate('broutes').exec(function (err, users) {
     res.send(users);
   });
 });
+
+
 
 var restrictAccess = function (req, res, next) {
  var sessionId = req.session.currentUser;
@@ -22,12 +25,6 @@ app.get('/users/:id', authenticate, restrictAccess, function (req, res) {
   });
 });
 
-// app.get('/posts', function(req, res) {
-//   Post.find().exec(function (err, posts) {
-//     res.send(posts);
-//   });
-// });
-//
 app.post('/users', function (req, res) {
   var user = new User(req.body);
   user.save(function (err) {
@@ -39,7 +36,7 @@ app.post('/users', function (req, res) {
     }
   });
 });
-//
+
 app.post('/compareUser', function (req, res) {
   User.find({name: req.body.name}).exec(function (err, user) {
     var currentUser = user[0];
@@ -52,4 +49,24 @@ app.post('/compareUser', function (req, res) {
     });
   });
 });
-}
+
+//PROBLEM - update cannot be used to hash a changed password
+app.put("/users/:id", function(req, res) {
+  User.findOneAndUpdate({
+    _id: req.params.id
+  }, {
+    $set: req.body
+  }, function(err, user) {
+    res.send(user);
+  });
+});
+
+app.delete('/users/:id', function(req, res){
+  User.findOneAndRemove({_id: req.params.id}, function (err){
+    if(err) console.log(err);
+    console.log("user deleted");
+    res.send('user deleted');
+  });
+});
+
+};
