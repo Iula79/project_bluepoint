@@ -2,7 +2,6 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt');
     BroutesSchema = require('./broutes.js').schema;
 
-
 var UserSchema = new mongoose.Schema({
   name: String,
   password: String,
@@ -32,17 +31,9 @@ UserSchema.pre('save', function(next) {
   });
 });
 
-<<<<<<< HEAD
-UserSchema.methods.comparePassword = function(userPassword, cb) {
-  bcrypt.compare(userPassword, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-=======
-
-
 UserSchema.methods.comparePassword = function (userPassword, cb) {
   bcrypt.compare(userPassword, this.password, function (err, isMatch) {
     if(err) return cb(err);
->>>>>>> bcc9487735e69cba28c2bf6982ebd588fe886012
     cb(null, isMatch);
   });
 };
