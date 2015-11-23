@@ -3,32 +3,35 @@ User = require('../models/user.js'),
 Broute = require('../models/broutes.js');
 
 module.exports.controller = function(app) {
-
 app.get('/users', function(req, res) {
   User.find().populate('broutes').exec(function (err, users) {
     res.send(users);
   });
 });
 
+
 var restrictAccess = function (req, res, next) {
  var sessionId = req.session.currentUser;
  var reqId = req.params.id;
- sessionId = reqId ? next() : res.status(400).send({err: 400, msg: "You shall not pass"});
+ sessionId == reqId ? next() : res.status(400).send({err: 400, msg: "You shall not pass"});
+ console.log(sessionId);
+ console.log(reqId);
 };
- var authenticate = function (req, res, next) {
-    req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "log in troll"});
+var authenticate = function (req, res, next) {
+ req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "log in troll"});
+ console.log(req.session.currentUser);
 };
 
-  app.get('/users/:id', authenticate, restrictAccess, function(req, res) {
-  User.findById(req.params.id).exec(function(err, user) {
+app.get('/users/:id', authenticate, restrictAccess, function (req, res) {
+  User.findById(req.params.id).exec(function (err, user) {
+
     res.send(user);
   });
 });
 
-
 app.post('/users', function (req, res) {
   var user = new User(req.body);
-  user.save(function(err) {
+  user.save(function (err) {
     if (err) {
       console.log(err);
     } else {
@@ -38,12 +41,13 @@ app.post('/users', function (req, res) {
   });
 });
 
-
 app.post('/compareUser', function (req, res) {
   User.find({name: req.body.name}).exec(function (err, user) {
     var currentUser = user[0];
-    currentUser.comparePassword(req.body.password, function(err, isMatch) {
-      if (isMatch) {
+    currentUser.comparePassword(req.body.password, function (err, isMatch) {
+      if(isMatch) {
+        console.log(this.password);
+        console.log(req.body.password);
         res.send(currentUser);
       } else {
         res.send(err);
@@ -52,8 +56,8 @@ app.post('/compareUser', function (req, res) {
   });
 });
 
-//PROBLEM - update cannot be used to hash a changed password
-app.put("/users/:id", function(req, res) {
+//PROBLEM - update cannot be used to hash a changed password -- server will crash unless user is deleted in mongo
+app.put("/users/:id", authenticate, restrictAccess, function(req, res) {
   User.findOneAndUpdate({
     _id: req.params.id
   }, {
@@ -61,9 +65,9 @@ app.put("/users/:id", function(req, res) {
   }, function(err, user) {
     res.send(user);
   });
-});
+ });
 
-app.delete('/users/:id', function(req, res){
+app.delete('/users/:id', authenticate, restrictAccess, function(req, res){
   User.findOneAndRemove({_id: req.params.id}, function (err){
     if(err) console.log(err);
     console.log("user deleted");
