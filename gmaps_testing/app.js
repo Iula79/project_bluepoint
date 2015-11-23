@@ -1,3 +1,4 @@
+
 function loadGoogle() {
   if(typeof google != 'undefined' && google && google.load)
   {
@@ -8,6 +9,8 @@ function loadGoogle() {
   }
 }
 loadGoogle();
+
+
 
 function initMap() {
   var markerArray = [];
