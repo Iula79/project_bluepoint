@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
     BroutesSchema = require('./broutes.js').schema;
 
 var UserSchema = new mongoose.Schema({
-  name: String,
-  password: String,
-  email: String,
+  name: { String, required: true, unique: true },
+  password: { String, required: true }
+  email: { String, required: true, unique: true },
   broutes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Broute'
