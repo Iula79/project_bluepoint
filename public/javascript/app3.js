@@ -1,7 +1,5 @@
 $( window ).load(function() {
     console.log('ready2');
-
-
 });
 
 var login = function() {
