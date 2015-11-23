@@ -17,6 +17,8 @@ function initMap() {
     // Instantiate a directions service.
     var directionsService = new google.maps.DirectionsService();
 
+    var elevator = new google.maps.ElevationService();
+
     // Create a map and center it on Manhattan.
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 13,
@@ -46,17 +48,17 @@ function initMap() {
         draggable: true
     });
 
-
-    // Instantiate an info window to hold step text.
     var stepDisplay = new google.maps.InfoWindow();
 
-    // Display the route between the initial start and end selections.
     calculateAndDisplayRoute(
         directionsDisplay, directionsService, markerArray, stepDisplay, map);
+
+
     // Listen to change events from the start and end lists.
     var onChangeHandler = function() {
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
+        displayLocationElevation({lat: 40.76521, lng: -73.98028000000001}, elevator, stepDisplay);
     };
     document.getElementById('submit').addEventListener('click', onChangeHandler);
 
@@ -93,10 +95,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
     });
 }
 
-
-
-var path = [];
-
+path = [];
 function showSteps(directionResult, markerArray, stepDisplay, map) {
     // For each step, place a marker, and add the text to the marker's infowindow.
     // Also attach the marker to an array so we can keep track of it and remove it
@@ -107,7 +106,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
             console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
             console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
             var latitude = myRoute.steps[j].lat_lngs[f].lat();
-            var longitude = myRoute.steps[j].lat_lngs[f].lng()
+            var longitude = myRoute.steps[j].lat_lngs[f].lng();
             latitude_longitudeObj = {
                 lat: latitude,
                 lng: longitude
@@ -115,87 +114,27 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
 
             path.push(latitude_longitudeObj);
         }
-        console.log(path);
-    }
-
-    //creating a new location map
-    var elevator = new google.maps.ElevationService();
-
-    // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(path, elevator, map);
-
-    //get the location
-    getElevationForLocations(location)
-
-    function displayPathElevation(path, elevator, map) {
-        // Display a polyline of the elevation path.
-        new google.maps.Polyline({
-            path: path,
-            strokeColor: '#0000CC ',
-            opacity: 0.4,
-            map: map
-        });
-
-        // Create a PathElevationRequest object using this array.
-        // Ask for 256 samples along that path.
-        // Initiate the path request.
-        elevator.getElevationAlongPath({
-            'path': path,
-            'samples': path.length
-        }, plotElevation);
-    }
-    // Takes an array of ElevationResult objects, draws the path on the map
-    // and plots the elevation profile on a Visualization API ColumnChart.
-    function plotElevation(elevations, status) {
-        var chartDiv = document.getElementById('elevation_chart');
-        if (status !== google.maps.ElevationStatus.OK) {
-            // Show the error code inside the chartDiv.
-            chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
-                status;
-            return;
-        }
-        google.load('visualization', '1', {
-            packages: ['columnchart']
-        });
-        // Extract the data from which to populate the chart.
-        // Because the samples are equidistant, the 'Sample'
-        // column here does double duty as distance along the
-        // X axis.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Sample');
-        data.addColumn('number', 'Elevation');
-        for (var i = 0; i < elevations.length; i++) {
-            data.addRow(['', elevations[i].elevation]);
-            console.log("this is elevations " + elevations[i].elevation);
-        }
-
-        // Create a new chart in the elevation_chart DIV.
-        var chart = new google.visualization.ColumnChart(chartDiv);
-
-        // Draw the chart using the data within its DIV.
-        chart.draw(data, {
-            height: 150,
-            legend: 'none',
-            titleY: 'Elevation (m)'
-        });
-        ;
-    }
-
-    for (var i = 0; i < myRoute.steps.length; i++) {
-        //is the double marker necessary?
-        var marker = markerArray[i] || new google.maps.Marker();
-        marker.setMap(map);
-        marker.setPosition(myRoute.steps[i].start_location);
-        attachInstructionText(
-            stepDisplay, marker, myRoute.steps[i].instructions, map);
+        console.log(path[j]);
     }
 }
 
-function attachInstructionText(stepDisplay, marker, text, map) {
-    google.maps.event.addListener(marker, 'click', function() {
-        // Open an info window when the marker is clicked on, containing the text
-        // of the step.
-        stepDisplay.setContent(text);
-        stepDisplay.open(map, marker);
-    });
+
+function displayLocationElevation(location, elevator, stepDisplay) {
+    elevator.getElevationForLocations({
+   'locations': [location]
+ }, function(results, status) {
+   stepDisplay.setPosition(location);
+   if (status === google.maps.ElevationStatus.OK) {
+     // Retrieve the first result
+     if (results[0]) {
+       // Open the infowindow indicating the elevation at the clicked position.
+       stepDisplay.setContent('The elevation at this point <br>is ' +
+           results[0].elevation + ' meters.');
+     } else {
+       stepDisplay.setContent('No results found');
+     }
+   } else {
+     stepDisplay.setContent('Elevation service failed due to: ' + status);
+   }
+ });
 }
