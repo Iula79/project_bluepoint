@@ -43,3 +43,7 @@ body {
   width: 300px;
   overflow: auto;
 }
+
+#sign-up-box{
+  display: none;
+}

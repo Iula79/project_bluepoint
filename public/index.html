@@ -25,15 +25,22 @@
   loadGoogle();
   </script>
   <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=  &callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?key= &callback=initMap">
   </script>
   <div id="container">
-    <div class="form-inline" id="login-bar">
-      <input type="text" id="username" placeholder="Username">
-      <input type="text" id="password" placeholder="Password">
-      <button id="login" input-type="submit">LOGIN</submit>
+      <div class="form-inline" id="login-bar">
+          <input type="text" id="username" placeholder="Username">
+          <input type="text" id="password" placeholder="Password"  >
+        <button id="login" input-type="submit" class="btn btn-default">LOGIN</submit></button>
+        <p id="sign-up">New User? Sign Up HERE  !</p>
       </div>
-      <div class="form-block" id="floating-panel">
+      <div class="form-group" id="sign-up-box">
+        <input class="form-control" type="text" id="newUsername" placeholder="Your Username">
+        <input class="form-control" type="text" id="newPassword" placeholder="Your Password">
+        <input class="form-control"type="text" id="newEmail" placeholder="Your Email">
+        <button id="signup" input-type="submit" class="btn btn-default">Sign Up</submit></button>
+      </div>
+      <div class="col-md-3 panel" id="floating-panel">
         <input type="text" id="start" placeholder="Start">
         <input id="end" type="text" placeholder="Finish"><br>
         <b>Mode of Travel: </b>
