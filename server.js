@@ -6,7 +6,8 @@ var express = require('express'),
     bcrypt = require('bcrypt'),
     session = require('express-session'),
     app = express(),
-    apiKey = process.env.GOOGLE_MAPS_API;
+    request = require('request'),
+    helper = require('./helpers/maps_api_helper.js');
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -28,6 +29,13 @@ app.listen(3000, function(req, res) {
 app.get('/', function(req, res) {
   res.send('connected via server.js route');
 });
+
+app.get('/map', function(req, res) {
+  helper.getMap(function(data) {
+    console.log(data);
+    res.send(data)
+  });
+})
 
 mongoose.connect('mongodb://localhost/bluepointApp', function(err) {
   if (err) {

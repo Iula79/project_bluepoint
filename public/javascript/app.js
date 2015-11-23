@@ -1,3 +1,14 @@
+$(document).ready(function() {
+    $('#signup').click(signUp);
+    $.ajax({
+      url: '/map',
+      method: 'GET',
+    }).done(function (data) {
+  })
+    $('#login').click(signIn);
+    $('#logout').click(signOut);
+});
+
 function loadGoogle() {
   if(typeof google != 'undefined' && google && google.load)
   {
@@ -46,13 +57,13 @@ function initMap() {
   // Instantiate an info window to hold step text.
   var stepDisplay = new google.maps.InfoWindow;
 
-  // Display the route between the initial start and end selections.
-  calculateAndDisplayRoute(
-      directionsDisplay, directionsService, markerArray, stepDisplay, map);
+
   // Listen to change events from the start and end lists.
   var onChangeHandler = function() {
     calculateAndDisplayRoute(
         directionsDisplay, directionsService, markerArray, stepDisplay, map);
+        // Draw the path, using the Visualization API and the Elevation service.
+        displayPathElevation(path, elevator, map);
   };
   document.getElementById('submit').addEventListener('click', onChangeHandler);
 
@@ -91,7 +102,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 // });
 };
 
-
+var elevator = new google.maps.ElevationService;
 var path = [];
 function showSteps(directionResult, markerArray, stepDisplay, map) {
   // For each step, place a marker, and add the text to the marker's infowindow.
@@ -107,14 +118,10 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
       latitude_longitudeObj = {lat: latitude, lng: longitude};
 
 path.push(latitude_longitudeObj);
+displayPathElevation(path, elevator, map)
 }
 console.log(path);
 }
-
-var elevator = new google.maps.ElevationService;
-
-// Draw the path, using the Visualization API and the Elevation service.
-displayPathElevation(path, elevator, map);
 
 function displayPathElevation(path, elevator, map) {
  // Display a polyline of the elevation path.
@@ -154,6 +161,9 @@ google.load('visualization', '1', {packages: ['columnchart']});
  for (var i = 0; i < elevations.length; i++) {
    data.addRow(['', elevations[i].elevation]);
  }
+
+
+
  // Create a new chart in the elevation_chart DIV.
  var chart = new google.visualization.ColumnChart(chartDiv);
 
@@ -181,4 +191,44 @@ function attachInstructionText(stepDisplay, marker, text, map) {
     stepDisplay.setContent(text);
     stepDisplay.open(map, marker);
   });
+}
+
+function signUp(){
+  console.log("sign me up")
+  $('#sign-up-box').show();
+  var userObject = {
+    name: $('#newUsername').val(),
+    password: $('#newPassword').val(),
+    email: $('#newEmail').val()
+       }
+  $.post('/users/', userObject, function(data) {
+    console.log(data);
+      })
+};
+
+function signIn() {
+  console.log("signing in")
+  var userObject = {
+    name: $('#username').val(),
+    password: $('#password').val()
+  }
+  $.get('/users/', userObject, function(data) {
+    console.log(data);
+  })
+  $.post('/sessions/', userObject, function(data){
+
+  })
+  $('#logout').css('display', 'block');
+  $('#login').css('display', 'none')
+};
+
+function signOut() {
+  console.log("signing out");
+  $.ajax({
+    url: '/sessions',
+    method: 'DELETE',
+    success: function() {
+      console.log('logged out');
+  }});
+  $('#login').css('display', 'block');
 }

@@ -16,5 +16,6 @@
     "express-session": "^1.12.1",
     "mongoose": "^4.2.6",
     "morgan": "^1.6.1",
+    "request": "^2.67.0"
   }
 }

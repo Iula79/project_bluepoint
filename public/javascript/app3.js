@@ -1,13 +1,6 @@
-$( window ).load(function() {
+$(window).load(function() {
     console.log('ready2');
+    // $('#signUp').on('click', signUp)
 });
 
-var login = function() {
-  var user = $('#username').val();
-  var password = $('#password').val();
-  $.get('/user' + username).done(renderUser);
-};
-
-var renderUser = function() {
-  $('#savedRoutes').show();
-};
+// var signUp = function() {}

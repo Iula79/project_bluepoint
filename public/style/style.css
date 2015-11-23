@@ -45,5 +45,10 @@ body {
 }
 
 #sign-up-box{
+  height: auto;
+  width: auto;
+  float: right;
+}
+#logout{
   display: none;
 }
