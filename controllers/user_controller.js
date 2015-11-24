@@ -13,13 +13,10 @@ app.get('/users', function(req, res) {
 var restrictAccess = function (req, res, next) {
  var sessionId = req.session.currentUser;
  var reqId = req.params.id;
- sessionId == reqId ? next() : res.status(400).send({err: 400, msg: "You shall not pass"});
- console.log(sessionId);
- console.log(reqId);
+ sessionId == reqId ? next() : res.status(400).send({err: 400, msg: "Please log in to continue"});
 };
 var authenticate = function (req, res, next) {
- req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "log in troll"});
- console.log(req.session.currentUser);
+ req.session.currentUser ? next() : res.status(403).send({err: 403, msg: "Please log in to continue"});
 };
 
 app.get('/users/:id', authenticate, restrictAccess, function (req, res) {
@@ -46,8 +43,6 @@ app.post('/compareUser', function (req, res) {
     var currentUser = user[0];
     currentUser.comparePassword(req.body.password, function (err, isMatch) {
       if(isMatch) {
-        console.log(this.password);
-        console.log(req.body.password);
         res.send(currentUser);
       } else {
         res.send(err);

@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
     BroutesSchema = require('./broutes.js').schema;
 
 var UserSchema = new mongoose.Schema({
-  name: String,
-  password: String,
-  email: String,
+  name: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   broutes: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Broute'
@@ -15,16 +15,16 @@ var UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function(next) {
   var user = this;
 
-  //only hash the password if it has been modified
+
   if (!user.isModified('password')) return next();
   bcrypt.genSalt(10, function(err, salt) {
     if (err) return next(err);
 
-    //hash the password using our new salt
+
     bcrypt.hash(user.password, salt, function(err, hashedPassword) {
       if (err) return next(err);
 
-      //override the users password with the hashed one
+
       user.password = hashedPassword;
       next();
     });
