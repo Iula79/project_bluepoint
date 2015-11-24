@@ -2,7 +2,6 @@ var mongoose = require('mongoose'),
     bcrypt = require('bcrypt');
     BroutesSchema = require('./broutes.js').schema;
 
-
 var UserSchema = new mongoose.Schema({
   name: String,
   password: String,
