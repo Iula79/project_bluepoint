@@ -17,7 +17,10 @@ function initMap() {
     // Instantiate a directions service.
     var directionsService = new google.maps.DirectionsService();
 
+    //Create an ElevationService
     var elevator = new google.maps.ElevationService();
+
+    var stepDisplay = new google.maps.InfoWindow();
 
     // Create a map and center it on Manhattan.
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -48,23 +51,17 @@ function initMap() {
         draggable: true
     });
 
-    var stepDisplay = new google.maps.InfoWindow();
-
-    calculateAndDisplayRoute(
-        directionsDisplay, directionsService, markerArray, stepDisplay, map);
-
 
     // Listen to change events from the start and end lists.
     var onChangeHandler = function() {
+        //Calculates the route on the map
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
-        displayLocationElevation({lat: 40.76521, lng: -73.98028000000001}, elevator, stepDisplay);
+        // Displays the elevation on the map
+        displayLocationElevation({lat: 40.76521, lng: -73.98028000000001}, elevator, stepDisplay, map);
     };
     document.getElementById('submit').addEventListener('click', onChangeHandler);
 
-    // directionsDisplay.addListener("directions_changed", function() {
-    //   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    // });
 }
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
@@ -96,6 +93,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 }
 
 path = [];
+//making a function that shows latitude and longitude for every step in the path and pushes the values to a path array
 function showSteps(directionResult, markerArray, stepDisplay, map) {
     // For each step, place a marker, and add the text to the marker's infowindow.
     // Also attach the marker to an array so we can keep track of it and remove it
@@ -119,7 +117,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
 }
 
 
-function displayLocationElevation(location, elevator, stepDisplay) {
+function displayLocationElevation(location, elevator, stepDisplay, map) {
     elevator.getElevationForLocations({
    'locations': [location]
  }, function(results, status) {

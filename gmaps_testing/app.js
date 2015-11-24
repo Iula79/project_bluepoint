@@ -102,12 +102,13 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     // Also attach the marker to an array so we can keep track of it and remove it
     // when calculating new routes.
     var myRoute = directionResult.routes[0].legs[0];
+    console.log(myRoute.steps);
     for (var j = 0; j < myRoute.steps.length; j++) {
         for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
             console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
             console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
             var latitude = myRoute.steps[j].lat_lngs[f].lat();
-            var longitude = myRoute.steps[j].lat_lngs[f].lng()
+            var longitude = myRoute.steps[j].lat_lngs[f].lng();
             latitude_longitudeObj = {
                 lat: latitude,
                 lng: longitude
@@ -118,19 +119,37 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         console.log(path);
     }
 
+
+var arrayOfLegs = [];
+
+function createArrayOfLegs(path) {
+    for (var i = 0; i< path.length - 2; i++){
+        var singleArray = [path[i], path[i+1]];
+        arrayOfLegs.push(singleArray);
+    }
+
+}
+createArrayOfLegs(path);
+console.log("this is the array of legs");
+console.log(arrayOfLegs);
+
     //creating a new location map
     var elevator = new google.maps.ElevationService();
 
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(path, elevator, map);
+    displayPathElevation(arrayOfLegs, elevator, map);
 
-    //get the location
-    getElevationForLocations(location)
 
-    function displayPathElevation(path, elevator, map) {
+
+    function displayPathElevation(arrayOfLegs, elevator, map) {
+
+
+        for (var d =0; d<arrayOfLegs.length; d++ ) {
+            newPath = arrayOfLegs[d];
+
         // Display a polyline of the elevation path.
         new google.maps.Polyline({
-            path: path,
+            path: newPath,
             strokeColor: '#0000CC ',
             opacity: 0.4,
             map: map
@@ -140,8 +159,8 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         // Ask for 256 samples along that path.
         // Initiate the path request.
         elevator.getElevationAlongPath({
-            'path': path,
-            'samples': path.length
+            'path': newPath,
+            'samples': 2
         }, plotElevation);
     }
     // Takes an array of ElevationResult objects, draws the path on the map
@@ -170,6 +189,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         }
 
         // Create a new chart in the elevation_chart DIV.
+
         var chart = new google.visualization.ColumnChart(chartDiv);
 
         // Draw the chart using the data within its DIV.
@@ -178,7 +198,9 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
             legend: 'none',
             titleY: 'Elevation (m)'
         });
-        ;
+
+
+
     }
 
     for (var i = 0; i < myRoute.steps.length; i++) {
@@ -189,6 +211,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         attachInstructionText(
             stepDisplay, marker, myRoute.steps[i].instructions, map);
     }
+}
 }
 
 function attachInstructionText(stepDisplay, marker, text, map) {
