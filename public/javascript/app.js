@@ -18,7 +18,6 @@ $(document).ready(function() {
 
 
 loadGoogle();
-
 function initMap() {
   var markerArray = [];
 
@@ -91,6 +90,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
       console.log(response.routes[0].warnings);
       directionsDisplay.setDirections(response);
       directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+      $('#directionsPanel').css('display', 'inline-block');
       showSteps(response, markerArray, stepDisplay, map);
     } else {
       window.alert('Directions request failed due to ' + status);
@@ -239,4 +239,9 @@ function signOut() {
       console.log('logged out');
   }});
   $('#login').css('display', 'block');
-}
+};
+
+function saveRoute() {
+  console.log('saving route');
+
+};

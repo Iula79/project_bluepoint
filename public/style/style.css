@@ -5,7 +5,7 @@ body {
 #logo {
   position: relative;
   padding: 10px;
-  padding-left: 30%; 
+  padding-left: 30%;
 }
 
 #container{
@@ -13,41 +13,56 @@ body {
 }
 
 #map {
-  margin: 10px;
+  margin: 5px;
   height: 500px;
   width: 500px;
   padding-left: 100px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
 }
 #top-right{
   float: right;
   width: 300px;
 }
 #login-bar{
-  float: right;
+  float: left;
   border: double;
   background-color: rgb(182, 182, 182);
   position: relative;
-  border-radius: 5px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
 }
 
 #floating-panel {
-  margin: 10px;
+  margin: 5px;
   width: 300px;
   background-color:  rgba(157, 157, 157, 0.72);
   border: double;
   display: block;
   position: relative;
   text-align: left;
-  border-radius: 5px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
 }
 
 #directionsPanel{
-  float: none;
+  display: none;
+  float: left;
   position: relative;
   width: auto;
   height: 400px;
-  width: 300px;
   overflow: auto;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+  background-color: rgba(11, 118, 228, 0.36);
 }
 
 #sign-up-box{
@@ -58,7 +73,10 @@ body {
   width: 200px;
   border: double;
   margin-right: 30px;
-  border-radius: 5px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
 }
 
 .form-control {

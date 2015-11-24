@@ -26,7 +26,7 @@
   loadGoogle();
   </script>
   <script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXEW1RDqJLBxGULqNFByalXPVxbBNziJs&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?&callback=initMap">
   </script>
   <image id="logo" src="./images/BP_logo.png"></image>
   <div id="container">
@@ -55,9 +55,10 @@
               <option value="WALKING">Walking</option>
             </select>
         <button id="submit" input-type="submit">GO!</button>
-      </div>
-      <div class="col-md-6 panel" id="map"></div>
       <div class="col-md-9" id="directionsPanel"></div>
+      </div>
+
+      <div class="col-md-6 panel" id="map"></div>
       <div class="col-md-9 panel"id="elevation_chart"></div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
