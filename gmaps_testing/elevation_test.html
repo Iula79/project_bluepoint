@@ -89,6 +89,7 @@ function plotElevation(elevations, status) {
  data.addColumn('number', 'Elevation');
  for (var i = 0; i < elevations.length; i++) {
    data.addRow(['', elevations[i].elevation]);
+   console.log(data);
  }
 
  // Draw the chart using the data within its DIV.
@@ -100,7 +101,7 @@ function plotElevation(elevations, status) {
 }
 
      </script>
-     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkMWY7n98boa6qEfzTHn24z3C364Ssv0E&signed_in=true&callback=initMap"
+     <script src="https://maps.googleapis.com/maps/api/js?key=" + GOOGLE_MAPS_API "&signed_in=true&callback=initMap"
          async defer></script>
    </div>
  </body>

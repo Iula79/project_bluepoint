@@ -1,0 +1,119 @@
+body {
+  background-color: rgba(11, 118, 228, 0.36);
+}
+
+#logo {
+  position: relative;
+  padding-left: 30%;
+}
+
+#container{
+  margin: 15px;
+}
+
+#map {
+  margin: 5px;
+  height: 500px;
+  width: 50%;
+  padding-left: 100px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+}
+#top-right{
+  float: right;
+  position: relative;
+  width: 300px;
+  margin: 5px;
+}
+#login-bar{
+  border: double;
+  background-color: rgb(182, 182, 182);
+  position: relative;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+}
+
+#floating-panel {
+  margin: 5px;
+  width: 300px;
+  background-color:  rgba(157, 157, 157, 0.72);
+  border: double;
+  display: block;
+  position: relative;
+  text-align: left;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+}
+
+#directionsPanel{
+  display: none;
+  float: left;
+  position: relative;
+  width: auto;
+  height: 400px;
+  overflow: auto;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+  background-color: rgba(11, 118, 228, 0.36);
+}
+
+#sign-up-box{
+  opacity: 0.0;
+  position: relative;
+  float: right;
+  background: rgba(157, 157, 157, 0.72);
+  width: 200px;
+  border: double;
+  margin-right: 30px;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+}
+
+.form-control {
+  margin: 10px;
+  width: 150px;
+  text-align: justify;
+}
+
+#logout{
+  display: none;
+  border-style: outset;
+  float: right; 
+}
+
+.btn {
+  margin: 10px;
+  background-color: #1579B6;
+  color: white;
+  float: right;
+}
+
+#show-sign-up {
+  margin: 30px;
+  border-style: outset;
+  border-radius: 2px;
+  background-color: #1579B6;
+  color: white;
+}
+
+.input-box {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+}
+
+#submit {
+  margin: 5px;
+  background-color: #1579B6;
+  color: white;
+}

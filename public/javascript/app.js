@@ -1,3 +1,20 @@
+$(document).ready(function() {
+    $('#show-sign-up').click(function() {
+      $('#sign-up-box').animate({
+        top: '20px',
+        opacity: '1.0'
+      })
+
+    });
+    $.ajax({
+      url: '/map',
+      method: 'GET',
+    }).done(function (data) {
+  })
+    $('#login').click(signIn);
+    $('#logout').click(signOut);
+    $('#signup').click(signUp);
+});
 
 function loadGoogle() {
     if (typeof google != 'undefined' && google && google.load) {
@@ -10,43 +27,6 @@ function loadGoogle() {
 }
 loadGoogle();
 
-<<<<<<< HEAD
-
-
-function initMap() {
-  var markerArray = [];
-
-
-  // Instantiate a directions service.
-  var directionsService = new google.maps.DirectionsService;
-
-  // Create a map and center it on Manhattan.
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 13,
-    center: {lat: 40.771, lng: -73.974},
-    mapTypeControl: true,
-    mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.TOP_CENTER
-    },
-    zoomControl: true,
-    zoomControlOptions: {
-        position: google.maps.ControlPosition.LEFT_CENTER
-    },
-    scaleControl: true,
-    streetViewControl: true,
-    streetViewControlOptions: {
-        position: google.maps.ControlPosition.LEFT_TOP
-    }
-  });
-
-  // Create a renderer for directions and bind it to the map.
-  var directionsDisplay = new google.maps.DirectionsRenderer({
-    map: map,
-    draggable: true
-  });
-=======
->>>>>>> d029e8d5eb24794792fad5fa39e30d063c85ad1e
 
 function initMap() {
     var markerArray = [];
@@ -105,45 +85,19 @@ function initMap() {
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map) {
-<<<<<<< HEAD
-  // First, remove any existing markers from the map.
-  for (var i = 0; i < markerArray.length; i++) {
-    markerArray[i].setMap(null);
-  };
-
-  // Retrieve the start and end locations and create a DirectionsRequest using
-  // WALKING directions.
-  directionsService.route({
-    origin: document.getElementById('start').value,
-    destination: document.getElementById('end').value,
-    travelMode: google.maps.TravelMode.BICYCLING,
-    provideRouteAlternatives: true
-  }, function(response, status) {
-    // Route the directions and pass the response to a function to create
-    // markers for each step.
-    if (status === google.maps.DirectionsStatus.OK) {
-      console.log(response.routes[0].warnings);
-      directionsDisplay.setDirections(response);
-      directionsDisplay.setPanel(document.getElementById("directionsPanel"));
-      showSteps(response, markerArray, stepDisplay, map);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
-};
-=======
     // First, remove any existing markers from the map.
     for (var i = 0; i < markerArray.length; i++) {
         markerArray[i].setMap(null);
     }
 
     // Retrieve the start and end locations and create a DirectionsRequest using
-    // WALKING directions.
+    // WALKING or BICYCLING directions.
+     var selectedMode = document.getElementById('mode').value;
     directionsService.route({
         origin: document.getElementById('start').value,
         destination: document.getElementById('end').value,
-        travelMode: google.maps.TravelMode.BICYCLING,
-        provideRouteAlternatives: true
+        provideRouteAlternatives: true,
+        travelMode: google.maps.TravelMode[selectedMode]
     }, function(response, status) {
         // Route the directions and pass the response to a function to create
         // markers for each step.
@@ -151,6 +105,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
             console.log(response.routes[0].warnings);
             directionsDisplay.setDirections(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+            $('#directionsPanel').css('display', 'inline-block');
             showSteps(response, markerArray, stepDisplay, map);
         } else {
             window.alert('Directions request failed due to ' + status);
@@ -159,7 +114,6 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 }
 
 
->>>>>>> d029e8d5eb24794792fad5fa39e30d063c85ad1e
 
 var path = [];
 
@@ -194,61 +148,6 @@ function createArrayOfLegs(path) {
         arrayOfLegs.push(singleArray);
     }
 
-<<<<<<< HEAD
-var elevator = new google.maps.ElevationService;
-
-// Draw the path, using the Visualization API and the Elevation service.
-displayPathElevation(path, elevator, map);
-
-function displayPathElevation(path, elevator, map) {
- // Display a polyline of the elevation path.
- new google.maps.Polyline({
-   path: path,
-   strokeColor: '#7d7df2 ',
-   opacity: 0.4,
-   map: map
- });
-
- // Create a PathElevationRequest object using this array.
- // Ask for 256 samples along that path.
- // Initiate the path request.
- elevator.getElevationAlongPath({
-   'path': path,
-   'samples': 256
- }, plotElevation);
-}
-// Takes an array of ElevationResult objects, draws the path on the map
-// and plots the elevation profile on a Visualization API ColumnChart.
-function plotElevation(elevations, status) {
- var chartDiv = document.getElementById('elevation_chart');
- if (status !== google.maps.ElevationStatus.OK) {
-   // Show the error code inside the chartDiv.
-   chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
-       status;
-   return;
- }
-google.load('visualization', '1', {packages: ['columnchart']});
- // Extract the data from which to populate the chart.
- // Because the samples are equidistant, the 'Sample'
- // column here does double duty as distance along the
- // X axis.
- var data = new google.visualization.DataTable();
- data.addColumn('string', 'Sample');
- data.addColumn('number', 'Elevation');
- for (var i = 0; i < elevations.length; i++) {
-   data.addRow(['', elevations[i].elevation]);
- }
- // Create a new chart in the elevation_chart DIV.
- var chart = new google.visualization.ColumnChart(chartDiv);
-
- // Draw the chart using the data within its DIV.
- chart.draw(data, {
-   height: 150,
-   legend: 'none',
-   titleY: 'Elevation (m)'
- });
-=======
->>>>>>> d029e8d5eb24794792fad5fa39e30d063c85ad1e
 }
 createArrayOfLegs(path);
 console.log("this is the array of legs");
@@ -281,7 +180,7 @@ console.log(arrayOfLegs);
         // Initiate the path request.
         elevator.getElevationAlongPath({
             'path': newPath,
-            'samples': 2
+            'samples': 10
         }, plotElevation);
     }
     // Takes an array of ElevationResult objects, draws the path on the map
@@ -319,9 +218,6 @@ console.log(arrayOfLegs);
             legend: 'none',
             titleY: 'Elevation (m)'
         });
-
-
-
     }
 
     for (var i = 0; i < myRoute.steps.length; i++) {
@@ -343,3 +239,59 @@ function attachInstructionText(stepDisplay, marker, text, map) {
         stepDisplay.open(map, marker);
     });
 }
+
+function signUp(){
+  console.log("sign me up")
+  var userObject = {
+    name: $('#newUsername').val(),
+    password: $('#newPassword').val(),
+    email: $('#newEmail').val()
+       }
+  $.post('/users/', userObject, function(data) {
+    console.log(data);
+  });
+  $('#newUsername').val('');
+  $('#newPassword').val('');
+  $('#newEmail').val('');
+  $('#passwordConfirmation').val('');
+  $('#sign-up-box').animate({
+    opacity: '0.0'
+  })
+
+};
+
+function signIn() {
+  console.log("signing in")
+  var userObject = {
+    name: $('#username').val(),
+    password: $('#password').val()
+  }
+  $.get('/users/', userObject, function(data) {
+    console.log(data);
+  })
+  $.post('/sessions/', userObject, function(data){
+
+  })
+  $('#logout').css('display', 'block');
+  $('#login').css('display', 'none')
+  $('#username').val('');
+  $('#password').val('');
+};
+
+function signOut() {
+  console.log("signing out");
+  $.ajax({
+    url: '/sessions',
+    method: 'DELETE',
+    success: function() {
+      console.log('logged out');
+  }});
+  $('#login').css('display', 'block');
+  $('#logout').css('display', 'none');
+
+};
+
+function saveRoute() {
+  console.log('saving route');
+
+};

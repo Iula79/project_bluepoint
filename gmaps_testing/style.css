@@ -11,6 +11,7 @@ body {
 }
 #map {
   margin-top: 50px;
+  margin-right: 400px;
   height: 500px;
   width: 500px;
 }
@@ -31,14 +32,14 @@ body {
   height: 400px;
   width: 150px;
   margin: 10px;
-  margin-top: 85px;
+  padding-top: 85px;
   text-align: left;
 }
 #directionsPanel{
-  float: right;
+  float: none;
   position: absolute;
   width: auto;
   height: 600px;
   width: 300px;
-  overflow: scroll;
+  overflow: auto;
 }
