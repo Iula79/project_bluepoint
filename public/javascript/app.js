@@ -1,10 +1,5 @@
 $(document).ready(function() {
     $('#signup').click(signUp);
-    $.ajax({
-      url: '/map',
-      method: 'GET',
-    }).done(function (data) {
-  })
     $('#login').click(signIn);
     $('#logout').click(signOut);
 });
@@ -211,16 +206,31 @@ function signIn() {
   var userObject = {
     name: $('#username').val(),
     password: $('#password').val()
-  }
+  };
   $.get('/users/', userObject, function(data) {
-    console.log(data);
-  })
-  $.post('/sessions/', userObject, function(data){
 
-  })
-  $('#logout').css('display', 'block');
-  $('#login').css('display', 'none')
+
+  });
+  $.post('/sessions/', userObject, function(data){
+    console.log(data);
+    console.log(data[0].name);
+  });
+  // $.get('/users/:id', userObject, function(data) {
+  //
+  //   console.log(data);
+  // });
+  var userDiv = $("<div>", {
+    id: "user"
+  });
+  var pTag = $("<p>", {
+    text: "display"
+  });
+  $('body').append(userDiv);
+  $(userDiv).append(pTag);
+  $('#logout').css({'display': 'block'});
+  $('#login').css({'display': 'none'});
 };
+
 
 function signOut() {
   console.log("signing out");
@@ -230,5 +240,5 @@ function signOut() {
     success: function() {
       console.log('logged out');
   }});
-  $('#login').css('display', 'block');
+  $('#login').css({'display': 'block'});
 }
