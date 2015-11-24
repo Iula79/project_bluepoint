@@ -17,11 +17,9 @@ module.exports.controller = function(app) {
       user[0].comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch) {
           console.log('Login Successful');
-          console.log(user[0]._id);
           req.session.currentUser = user[0]._id;
           res.send(user);
         } else {
-          console.log(user[0]._id);
           res.status(400);
           res.send({
             err: 400,
