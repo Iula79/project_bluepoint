@@ -1,11 +1,11 @@
 body {
-  background-color: rgb(37, 120, 187);
+  background-color: rgba(11, 118, 228, 0.36);
 }
 
 #logo {
-  position: absolute;
-  text-align: center;
-  margin-left: 200;
+  position: relative;
+  padding: 10px;
+  padding-left: 30%; 
 }
 
 #container{
@@ -16,23 +16,29 @@ body {
   margin: 10px;
   height: 500px;
   width: 500px;
+  padding-left: 100px;
 }
-
+#top-right{
+  float: right;
+  width: 300px;
+}
 #login-bar{
   float: right;
   border: double;
   background-color: rgb(182, 182, 182);
   position: relative;
+  border-radius: 5px;
 }
 
 #floating-panel {
   margin: 10px;
   width: 300px;
-  background-color: rgb(182, 182, 182);
+  background-color:  rgba(157, 157, 157, 0.72);
   border: double;
   display: block;
   position: relative;
-  text-align: left;*/
+  text-align: left;
+  border-radius: 5px;
 }
 
 #directionsPanel{
@@ -45,10 +51,50 @@ body {
 }
 
 #sign-up-box{
-  height: auto;
-  width: auto;
+  opacity: 0.0;
+  position: relative;
   float: right;
+  background: rgba(157, 157, 157, 0.72);
+  width: 200px;
+  border: double;
+  margin-right: 30px;
+  border-radius: 5px;
 }
+
+.form-control {
+  margin: 10px;
+  width: 150px;
+  text-align: justify;
+}
+
 #logout{
   display: none;
+  border-style: outset;
+}
+
+.btn {
+  margin: 10px;
+  background-color: #1579B6;
+  color: white;
+  float: right;
+}
+
+#show-sign-up {
+  margin: 30px;
+  border-style: outset;
+  border-radius: 2px;
+  background-color: #1579B6;
+  color: white;
+}
+
+.input-box {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+}
+
+#submit {
+  margin: 5px;
+  background-color: #1579B6;
+  color: white;
 }

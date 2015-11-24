@@ -1,5 +1,11 @@
 $(document).ready(function() {
-    $('#signup').click(signUp);
+    $('#show-sign-up').click(function() {
+      $('#sign-up-box').animate({
+        top: '20px',
+        opacity: '1.0'
+      })
+
+    });
     $.ajax({
       url: '/map',
       method: 'GET',
@@ -7,17 +13,10 @@ $(document).ready(function() {
   })
     $('#login').click(signIn);
     $('#logout').click(signOut);
+    $('#signup').click(signUp);
 });
 
-function loadGoogle() {
-  if(typeof google != 'undefined' && google && google.load)
-  {
-    google.load('visualization', '1', {packages: ['columnchart']});
-  }
-  else {
-    setTimeout(loadGoogle, 30);
-  }
-}
+
 loadGoogle();
 
 function initMap() {
@@ -195,7 +194,6 @@ function attachInstructionText(stepDisplay, marker, text, map) {
 
 function signUp(){
   console.log("sign me up")
-  $('#sign-up-box').show();
   var userObject = {
     name: $('#newUsername').val(),
     password: $('#newPassword').val(),
@@ -203,7 +201,15 @@ function signUp(){
        }
   $.post('/users/', userObject, function(data) {
     console.log(data);
-      })
+  });
+  $('#newUsername').val('');
+  $('#newPassword').val('');
+  $('#newEmail').val('');
+  $('#passwordConfirmation').val('');
+  $('#sign-up-box').animate({
+    opacity: '0.0'
+  })
+
 };
 
 function signIn() {
@@ -220,6 +226,8 @@ function signIn() {
   })
   $('#logout').css('display', 'block');
   $('#login').css('display', 'none')
+  $('#username').val('');
+  $('#password').val('');
 };
 
 function signOut() {
