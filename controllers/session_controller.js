@@ -7,6 +7,13 @@ module.exports.controller = function(app) {
     User.find({
       name: req.body.name
     }).exec(function(err, user) {
+      if (req.body.password == undefined || req.body.name == undefined){
+        res.status(400);
+        res.send({
+          err: 400,
+          msg: 'enter username and password'
+        });
+      } else {
       user[0].comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch) {
           console.log('Login Successful');
@@ -22,6 +29,7 @@ module.exports.controller = function(app) {
           });
         }
       });
+    }
     });
   });
 

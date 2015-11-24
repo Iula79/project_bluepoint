@@ -56,7 +56,7 @@ module.exports.controller = function(app) {
       });
     });
   });
-  //
+  
   // app.delete('/broutes/:id', function(req, res){
   //   Broute.findOneAndRemove({_id: req.params.id}, function (err){
   //     if(err) console.log(err);
