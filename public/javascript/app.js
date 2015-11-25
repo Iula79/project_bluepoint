@@ -20,6 +20,7 @@ function loadGoogle() {
     if (typeof google != 'undefined' && google && google.load) {
         google.load('visualization', '1', {
             packages: ['columnchart']
+            initMap();
         });
     } else {
         setTimeout(loadGoogle, 30);
@@ -27,6 +28,7 @@ function loadGoogle() {
 }
 
 loadGoogle();
+
 
 function initMap() {
     var markerArray = [];
@@ -71,19 +73,19 @@ function initMap() {
     // Display the route between the initial start and end selections.
     calculateAndDisplayRoute(
         directionsDisplay, directionsService, markerArray, stepDisplay, map);
+
     // Listen to change events from the start and end lists.
+
+    map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
+
     var onChangeHandler = function() {
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
     };
-    document.getElementById('submit').addEventListener('click', onChangeHandler);
 
-    // directionsDisplay.addListener("directions_changed", function() {
-    //   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    // });
-    map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
-    console.log(map.data);
-}
+
+    $('#submit').click(onChangeHandler);
+    directionsDisplay.addListener("directions_changed", onChangeHandler);
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map) {
@@ -113,7 +115,6 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
             window.alert('Directions request failed due to ' + status);
         }
     });
-}
 
 
 
@@ -127,8 +128,8 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     console.log(myRoute.steps);
     for (var j = 0; j < myRoute.steps.length; j++) {
         for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
-            console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
-            console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
+            // console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
+            // console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
             var latitude = myRoute.steps[j].lat_lngs[f].lat();
             var longitude = myRoute.steps[j].lat_lngs[f].lng();
             latitude_longitudeObj = {
@@ -138,7 +139,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
 
             path.push(latitude_longitudeObj);
         }
-        console.log(path);
+        // console.log(path);
     }
 
 
@@ -170,7 +171,7 @@ console.log(arrayOfLegs);
             newPath = arrayOfLegs[d];
 
         // Display a polyline of the elevation path.
-        new google.maps.Polyline({
+      new google.maps.Polyline({
             path: newPath,
             strokeColor: '#0000CC ',
             opacity: 0.4,
@@ -207,7 +208,7 @@ console.log(arrayOfLegs);
         data.addColumn('number', 'Elevation');
         for (var i = 0; i < elevations.length; i++) {
             data.addRow(['', elevations[i].elevation]);
-            console.log("this is elevations " + elevations[i].elevation);
+            // console.log("this is elevations " + elevations[i].elevation);
         }
 
         // Create a new chart in the elevation_chart DIV.
@@ -231,7 +232,11 @@ console.log(arrayOfLegs);
             stepDisplay, marker, myRoute.steps[i].instructions, map);
     }
 }
-}
+
+
+};
+
+};
 
 function attachInstructionText(stepDisplay, marker, text, map) {
     google.maps.event.addListener(marker, 'click', function() {
@@ -241,6 +246,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
         stepDisplay.open(map, marker);
     });
 }
+};
 
 function signUp(){
   console.log("sign me up")
