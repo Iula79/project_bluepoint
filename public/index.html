@@ -13,11 +13,15 @@
 </head>
 <body>
   <script type="text/javascript" src= "http://www.google.com/jsapi"></script>
+  <script 
+  src="https://maps.googleapis.com/maps/api/js">
+  </script>
   <script type="text/javascript">
   function loadGoogle() {
     if(typeof google != 'undefined' && google && google.load)
     {
       google.load('visualization', '1', {packages: ['columnchart']});
+      initMap();
     }
     else {
       setTimeout(loadGoogle, 30);
@@ -25,9 +29,9 @@
   }
   loadGoogle();
   </script>
-  <script async defer
-  src="https://maps.googleapis.com/maps/api/js?&callback=initMap">
-  </script>
+  <!-- <script async defer
+  src="https://maps.googleapis.com/maps/api/js">
+  </script> -->
   <image id="logo" src="./images/BP_logo.png"></image>
   <div id="container">
     <div class="col-sm-12" id="top-right" >
