@@ -5,9 +5,15 @@ $(document).ready(function() {
         opacity: '1.0'
       })
     });
+    $.ajax({
+  url: '/map',
+  method: 'GET',
+}).done(function (data) {
+});
     $('#login').click(signIn);
     $('#logout').click(signOut);
     $('#signup').click(signUp);
+
 });
 
 function loadGoogle() {
@@ -19,8 +25,8 @@ function loadGoogle() {
         setTimeout(loadGoogle, 30);
     }
 }
-loadGoogle();
 
+loadGoogle();
 
 function initMap() {
     var markerArray = [];
@@ -75,6 +81,8 @@ function initMap() {
     // directionsDisplay.addListener("directions_changed", function() {
     //   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
     // });
+    map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
+    console.log(map.data);
 }
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
@@ -266,24 +274,49 @@ function signIn() {
   $.post('/sessions/', userObject, function(data){
     console.log(data);
     console.log(data[0].name);
-  });
-  var userDiv = $("<div>", {
-    id: "user"
-  });
-  var pTag = $("<p>", {
-    text: "display"
-  });
-  $('body').append(userDiv);
-  $(userDiv).append(pTag);
-  $('#logout').css({'display': 'block'});
-  $('#login').css({'display': 'none'});
-  $('#username').val('');
-  $('#password').val('');
+  }).done(getSaveButton);
+  };
+var userID = "";
+  function getSaveButton(data) {
+    var userDiv = $("<div>", {
+      id: "user-data"
+    });
+    var saveButton = $("<button>", {
+      text: "Save Broute",
+      id: "save-broute-button"
+    });
+    userID = data;
+    $('body').append(userDiv);
+    $(userDiv).append(saveButton);
+    $('#logout').css({'display': 'block'});
+    $('#login').css({'display': 'none'});
+    $('#username').val('');
+    $('#password').val('');
+    $('#save-broute-button').on('click', saveRoute);
+    console.log("/users/" + data[0]._id + "/broutes");
+    $.ajax({
+      url: "/users/" + data[0]._id + "/broutes",
+      method: "GET"
+    }).done(showBroutes);
 };
+var broutesList = "";
+function showBroutes(data) {
+  broutesList = data;
+  console.log(data);
+  data.forEach(function(broute){
+    var brouteContent = broute.content;
+    var brouteTag = $("<p>", {
+      text: brouteContent
+    });
+    $('#user-data').append(brouteTag);
+  });
 
+};
 
 function signOut() {
   console.log("signing out");
+  userID = "";
+  broutesList = "";
   $.ajax({
     url: '/sessions',
     method: 'DELETE',
@@ -294,6 +327,33 @@ function signOut() {
     $('#logout').css({'display': 'none'});
 };
 
+
+
 function saveRoute() {
   console.log('saving route');
+  var start = $('#start').val();
+  var end = $('#end').val();
+  console.log(start);
+  console.log(end);
+  console.log(userID);
+  $.ajax({
+    url: "/users/" + userID[0]._id + "/broutes",
+    method: "POST",
+    data: JSON.stringify({content: start})
+  }).done(refreshBroutes);
+  // push start and end to broutes
+  //display list of broutes
+  //click on broute to display map
+};
+
+
+
+function refreshBroutes() {
+  broutesList.forEach(function(broute){
+    var brouteContent = broute.content;
+    var brouteTag = $("<p>", {
+      text: brouteContent
+    });
+    $('#user-data').append(brouteTag);
+  });
 };
