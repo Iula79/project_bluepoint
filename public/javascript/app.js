@@ -276,8 +276,6 @@ function signIn() {
   $.get('/users/', userObject, function(data) {
   });
   $.post('/sessions/', userObject, function(data){
-    console.log(data);
-    console.log(data[0].name);
   }).done(getSaveButton);
   };
 var userID = "";
@@ -297,7 +295,6 @@ var userID = "";
     $('#username').val('');
     $('#password').val('');
     $('#save-broute-button').on('click', saveRoute);
-    console.log("/users/" + data[0]._id + "/broutes");
     $.ajax({
       url: "/users/" + data[0]._id + "/broutes",
       method: "GET"
@@ -310,45 +307,6 @@ function showBroutes(data) {
   });
   $('#user-data').append(savedBroutesDiv);
   appendBroute(data);
-  // data.forEach(function(broute){
-  //   var brouteStart = broute.startPoint;
-  //   var brouteEnd = broute.endPoint;
-  //   var brouteID = broute._id;
-  //   var deleteButton = $("<button>", {
-  //     class: "delete-button",
-  //     id: brouteID,
-  //     text: "Delete Route"
-  //   });
-  //   var loadRouteButton = $("<button>", {
-  //     class: "load-route-button",
-  //     id: brouteID,
-  //     text: "Load Route"
-  //   });
-  //   var oneBroute = $("<div>",{
-  //     class: "one-broute",
-  //   });
-  //   var brouteTag = $("<p>", {
-  //     text: "Start: " + brouteStart + ", End: " + brouteEnd
-  //   });
-  //   $(oneBroute).append(brouteTag);
-  //   $(oneBroute).append(loadRouteButton);
-  //   $(oneBroute).append(deleteButton);
-  //   $('#saved-broutes-div').append(oneBroute);
-  //   });
-  //   $('.delete-button').on('click', function(data){
-  //     $.ajax({
-  //       url: "/users/" + userID[0]._id + "/broutes/" + $('.delete-button').attr("id"),
-  //       method: "DELETE"
-  //     }).done(emptyBrouteList);
-  // });
-  // $('#load-route-button').on('click', function(){
-  //   $.ajax({
-  //     url: '/users' + userID[0]._id + "/broutes/" + $('.load-route-button').attr('id'),
-  //     method: "GET"
-  //   }).done(getRouteValues);
-  //   console.log('clicked');
-  //   console.log(broute.endPoint);
-  // });
 };
 
 function signOut() {
@@ -382,10 +340,6 @@ function getRouteToDelete(){
     url: "/users/" + userID[0]._id + "/broutes",
     method: "GET"
   }).done(deleteRoute);
-};
-
-function deleteRoute(data){
-  console.log('clicked');
 };
 
 function emptyBrouteList(){
@@ -425,7 +379,6 @@ function appendBroute(data) {
     $('#saved-broutes-div').append(oneBroute);
     });
     $('.load-route-button').on('click', function(){
-      console.log('clicked');
       $.ajax({
         url: '/users/' + userID[0]._id + "/broutes/" + $('.load-route-button').attr('id'),
         method: "GET"
@@ -440,7 +393,6 @@ function appendBroute(data) {
 };
 
 function getRouteValues(data){
-  console.log(data);
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
   initMap();
