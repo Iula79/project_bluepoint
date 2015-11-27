@@ -119,45 +119,15 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         console.log(path);
     }
 
+//
 
-var arrayOfLegs = [];
-
-function createArrayOfLegs(path) {
-    for (var i = 0; i< path.length - 2; i++){
-        var singleArray = [path[i], path[i+1]];
-        arrayOfLegs.push(singleArray);
-    }
+    function displayPathElevation(path, elevator, map) {
 
 
-var elevator = new google.maps.ElevationService();
-
-// Draw the path, using the Visualization API and the Elevation service.
-displayPathElevation(path, elevator, map);
-
-
-
-}
-createArrayOfLegs(path);
-console.log("this is the array of legs");
-console.log(arrayOfLegs);
-
-    //creating a new location map
-    var elevator = new google.maps.ElevationService();
-
-    // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(arrayOfLegs, elevator, map);
-
-
-
-    function displayPathElevation(arrayOfLegs, elevator, map) {
-
-
-        for (var d =0; d<arrayOfLegs.length; d++ ) {
-            newPath = arrayOfLegs[d];
 
         // Display a polyline of the elevation path.
         new google.maps.Polyline({
-            path: newPath,
+            path: path,
             strokeColor: '#0000CC ',
             opacity: 0.4,
             map: map
@@ -167,10 +137,10 @@ console.log(arrayOfLegs);
         // Ask for 256 samples along that path.
         // Initiate the path request.
         elevator.getElevationAlongPath({
-            'path': newPath,
+            'path': path,
             'samples': 2
         }, plotElevation);
-    }
+
     // Takes an array of ElevationResult objects, draws the path on the map
     // and plots the elevation profile on a Visualization API ColumnChart.
     function plotElevation(elevations, status) {
@@ -206,8 +176,6 @@ console.log(arrayOfLegs);
             legend: 'none',
             titleY: 'Elevation (m)'
         });
-
-
 
     }
 

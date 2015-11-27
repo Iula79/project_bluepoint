@@ -142,34 +142,34 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
 
 var arrayOfLegs = [];
 
-function createArrayOfLegs(path) {
-    for (var i = 0; i< path.length - 2; i++){
-        var singleArray = [path[i], path[i+1]];
-        arrayOfLegs.push(singleArray);
-    }
-
-}
-createArrayOfLegs(path);
-console.log("this is the array of legs");
-console.log(arrayOfLegs);
+// function createArrayOfLegs(path) {
+//     for (var i = 0; i< path.length - 2; i++){
+//         var singleArray = [path[i], path[i+1]];
+//         arrayOfLegs.push(singleArray);
+//     }
+//
+// }
+// createArrayOfLegs(path);
+// console.log("this is the array of legs");
+// console.log(arrayOfLegs);
 
     //creating a new location map
     var elevator = new google.maps.ElevationService();
 
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(arrayOfLegs, elevator, map);
+    displayPathElevation(path, elevator, map);
 
 
 
-    function displayPathElevation(arrayOfLegs, elevator, map) {
+    function displayPathElevation(path, elevator, map) {
 
-
-        for (var d =0; d<arrayOfLegs.length; d++ ) {
-            newPath = arrayOfLegs[d];
+        //
+        // for (var d =0; d<arrayOfLegs.length; d++ ) {
+        //     newPath = arrayOfLegs[d];
 
         // Display a polyline of the elevation path.
         new google.maps.Polyline({
-            path: newPath,
+            path: path,
             strokeColor: '#0000CC ',
             opacity: 0.4,
             map: map
@@ -179,10 +179,10 @@ console.log(arrayOfLegs);
         // Ask for 256 samples along that path.
         // Initiate the path request.
         elevator.getElevationAlongPath({
-            'path': newPath,
-            'samples': 10
+            'path': path,
+            'samples': 60
         }, plotElevation);
-    }
+    //}
     // Takes an array of ElevationResult objects, draws the path on the map
     // and plots the elevation profile on a Visualization API ColumnChart.
     function plotElevation(elevations, status) {
@@ -200,13 +200,19 @@ console.log(arrayOfLegs);
         // Because the samples are equidistant, the 'Sample'
         // column here does double duty as distance along the
         // X axis.
+        elevationList = []
+
+
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Sample');
         data.addColumn('number', 'Elevation');
         for (var i = 0; i < elevations.length; i++) {
             data.addRow(['', elevations[i].elevation]);
-            console.log("this is elevations " + elevations[i].elevation);
+            //console.log("this is elevations " + elevations[i].elevation);
+            singleSpotElevation = elevations[i].elevation
+            elevationList.push(singleSpotElevation)
         }
+        console.log("elevationList: " + elevationList)
 
         // Create a new chart in the elevation_chart DIV.
 
@@ -230,6 +236,8 @@ console.log(arrayOfLegs);
     }
 }
 }
+
+function calculateMedianElevation(path ){}
 
 function attachInstructionText(stepDisplay, marker, text, map) {
     google.maps.event.addListener(marker, 'click', function() {
