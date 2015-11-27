@@ -113,7 +113,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
               })
             //console.log(response.routes[i].warnings);
             console.log(response.routes);
-            // directionsDisplay.setDirections(response);
+            directionsDisplay.setDirections(response);
             //console.log(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
             $('#directionsPanel').css('display', 'inline-block');
