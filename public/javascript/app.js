@@ -1,32 +1,31 @@
 $(document).ready(function() {
+  loadGoogle();
     $('#show-sign-up').click(function() {
       $('#sign-up-box').animate({
         top: '20px',
         opacity: '1.0'
       })
-
     });
     $.ajax({
-      url: '/map',
-      method: 'GET',
-    }).done(function (data) {
-  })
+  url: '/map',
+  method: 'GET',
+}).done(function (data) {
+});
     $('#login').click(signIn);
     $('#logout').click(signOut);
     $('#signup').click(signUp);
 });
 
 function loadGoogle() {
-    if (typeof google != 'undefined' && google && google.load) {
-        google.load('visualization', '1', {
-            packages: ['columnchart']
-        });
-    } else {
-        setTimeout(loadGoogle, 30);
-    }
+  if(typeof google != 'undefined' && google && google.load)
+  {
+    google.load('visualization', '1', {packages: ['columnchart']});
+    initMap();
+  }
+  else {
+    setTimeout(loadGoogle, 30);
+  }
 }
-loadGoogle();
-
 
 function initMap() {
     var markerArray = [];
@@ -69,19 +68,22 @@ function initMap() {
     var stepDisplay = new google.maps.InfoWindow();
 
     // Display the route between the initial start and end selections.
-    calculateAndDisplayRoute(
-        directionsDisplay, directionsService, markerArray, stepDisplay, map);
+    // calculateAndDisplayRoute(
+    //     directionsDisplay, directionsService, markerArray, stepDisplay, map);
+
     // Listen to change events from the start and end lists.
+
+    map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
+
     var onChangeHandler = function() {
+      //console.log("change handler");
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    };
-    document.getElementById('submit').addEventListener('click', onChangeHandler);
 
-    // directionsDisplay.addListener("directions_changed", function() {
-    //   calculateAndDisplayRoute(directionsDisplay, directionsService, markerArray, stepDisplay, map);
-    // });
-}
+    };
+    //
+    $('#submit').click(onChangeHandler);
+    // directionsDisplay.addListener("drag", onChangeHandler);
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map) {
@@ -102,31 +104,46 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
         // Route the directions and pass the response to a function to create
         // markers for each step.
         if (status === google.maps.DirectionsStatus.OK) {
-            console.log(response.routes[0].warnings);
+          for (var i = 0, len = response.routes.length; i < len; i++) {
+              new google.maps.DirectionsRenderer({
+                  map: map,
+                  directions: response,
+                  draggable: true,
+                  routeIndex: i
+              })
+            //console.log(response.routes[i].warnings);
+            console.log(response.routes);
             directionsDisplay.setDirections(response);
+            //console.log(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
             $('#directionsPanel').css('display', 'inline-block');
             showSteps(response, markerArray, stepDisplay, map);
+          }
         } else {
             window.alert('Directions request failed due to ' + status);
         }
     });
-}
 
 
 
-var path = [];
+var path1 = [];
 
 function showSteps(directionResult, markerArray, stepDisplay, map) {
     // For each step, place a marker, and add the text to the marker's infowindow.
     // Also attach the marker to an array so we can keep track of it and remove it
-    // when calculating new routes.
-    var myRoute = directionResult.routes[0].legs[0];
+    // when calculating new routes
+    // Loop over all possible routes and print legs
+    console.log(directionResult.routes.length);
+    for (var i = 0; i < directionResult.routes.length; i++) {
+    var myRoute = directionResult.routes[i].legs[0];
+    var path2 = [];
     console.log(myRoute.steps);
+    console.log(myRoute);
     for (var j = 0; j < myRoute.steps.length; j++) {
+      // console.log(myRoute.steps[j]);
         for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
-            console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
-            console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
+            //  console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
+            //  console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
             var latitude = myRoute.steps[j].lat_lngs[f].lat();
             var longitude = myRoute.steps[j].lat_lngs[f].lng();
             latitude_longitudeObj = {
@@ -134,16 +151,21 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
                 lng: longitude
             };
 
-            path.push(latitude_longitudeObj);
+
         }
-        console.log(path);
+            path2.push(latitude_longitudeObj);
     }
 
+    console.log(path1);
+    path1.push(path2);
+}
 
-var arrayOfLegs = [];
+// var arrayOfLegs = [];
 
-// function createArrayOfLegs(path) {
-//     for (var i = 0; i< path.length - 2; i++){
+
+
+// function createArrayOfLegs(path1) {
+//     for (var i = 0; i< path1.length; i++){
 //         var singleArray = [path[i], path[i+1]];
 //         arrayOfLegs.push(singleArray);
 //     }
@@ -157,20 +179,22 @@ var arrayOfLegs = [];
     var elevator = new google.maps.ElevationService();
 
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(path, elevator, map);
+
+    displayPathElevation(path1, elevator, map);
+    //console.log("here!")
 
 
 
     function displayPathElevation(path, elevator, map) {
 
-        //
-        // for (var d =0; d<arrayOfLegs.length; d++ ) {
-        //     newPath = arrayOfLegs[d];
+        for (var d =0; d<path.length; d++ ) {
+            newPath = path[d];
+            //console.log(newPath)
 
         // Display a polyline of the elevation path.
-        new google.maps.Polyline({
-            path: path,
-            strokeColor: '#0000CC ',
+      new google.maps.Polyline({
+            path: newPath,
+            strokeColor: 'rgb(255, 15, 15) ',
             opacity: 0.4,
             map: map
         });
@@ -179,10 +203,10 @@ var arrayOfLegs = [];
         // Ask for 256 samples along that path.
         // Initiate the path request.
         elevator.getElevationAlongPath({
-            'path': path,
-            'samples': 60
-        }, plotElevation);
-    //}
+            'path': newPath,
+            'samples': 10
+        }, plotElevation, setMarkers());
+    }
     // Takes an array of ElevationResult objects, draws the path on the map
     // and plots the elevation profile on a Visualization API ColumnChart.
     function plotElevation(elevations, status) {
@@ -208,6 +232,7 @@ var arrayOfLegs = [];
         data.addColumn('number', 'Elevation');
         for (var i = 0; i < elevations.length; i++) {
             data.addRow(['', elevations[i].elevation]);
+
             //console.log("this is elevations " + elevations[i].elevation);
             singleSpotElevation = elevations[i].elevation
             elevationList.push(singleSpotElevation)
@@ -217,15 +242,20 @@ var arrayOfLegs = [];
         // Create a new chart in the elevation_chart DIV.
 
         var chart = new google.visualization.ColumnChart(chartDiv);
-
         // Draw the chart using the data within its DIV.
         chart.draw(data, {
             height: 150,
             legend: 'none',
             titleY: 'Elevation (m)'
         });
+
     }
 
+    //setMarkers();
+  };
+
+function setMarkers() {
+  //console.log("setting markers");
     for (var i = 0; i < myRoute.steps.length; i++) {
         //is the double marker necessary?
         var marker = markerArray[i] || new google.maps.Marker();
@@ -235,7 +265,12 @@ var arrayOfLegs = [];
             stepDisplay, marker, myRoute.steps[i].instructions, map);
     }
 }
-}
+directionsDisplay.addListener("drag", initMap);
+
+
+};
+
+};
 
 function calculateMedianElevation(path ){}
 
@@ -247,6 +282,7 @@ function attachInstructionText(stepDisplay, marker, text, map) {
         stepDisplay.open(map, marker);
     });
 }
+};
 
 function signUp(){
   console.log("sign me up")
@@ -273,33 +309,94 @@ function signIn() {
   var userObject = {
     name: $('#username').val(),
     password: $('#password').val()
-  }
+  };
+  if (name != "" || password != ""){
   $.get('/users/', userObject, function(data) {
-    console.log(data);
-  })
-  $.post('/sessions/', userObject, function(data){
 
-  })
-  $('#logout').css('display', 'block');
-  $('#login').css('display', 'none')
-  $('#username').val('');
-  $('#password').val('');
+  });
+  $.post('/sessions/', userObject, function(data){
+    console.log(data);
+    console.log(data[0].name);
+  }).done(getSaveButton);
+  };
+};
+var userID = "";
+  function getSaveButton(data) {
+    var userDiv = $("<div>", {
+      id: "user-data"
+    });
+    var saveButton = $("<button>", {
+      text: "Save Broute",
+      id: "save-broute-button"
+    });
+    userID = data;
+    $('#container').append(userDiv);
+    $(userDiv).append(saveButton);
+    $('#logout').css({'display': 'block'});
+    $('#login').css({'display': 'none'});
+    $('#username').val('');
+    $('#password').val('');
+    $('#save-broute-button').on('click', saveRoute);
+    console.log("/users/" + data[0]._id + "/broutes");
+    $.ajax({
+      url: "/users/" + data[0]._id + "/broutes",
+      method: "GET"
+    }).done(showBroutes);
+};
+var broutesList = "";
+function showBroutes(data) {
+  broutesList = data;
+  console.log(data);
+  data.forEach(function(broute){
+    var brouteContent = broute.content;
+    var brouteTag = $("<p>", {
+      text: brouteContent
+    });
+    $('#user-data').append(brouteTag);
+  });
+
 };
 
 function signOut() {
   console.log("signing out");
+  userID = "";
+  broutesList = "";
   $.ajax({
     url: '/sessions',
     method: 'DELETE',
     success: function() {
       console.log('logged out');
   }});
-  $('#login').css('display', 'block');
-  $('#logout').css('display', 'none');
-
+  $('#login').css({'display': 'block'});
+    $('#logout').css({'display': 'none'});
+    $('#save-broute-button').css({'display': 'none'})
 };
 
 function saveRoute() {
   console.log('saving route');
+  var start = $('#start').val();
+  var end = $('#end').val();
+  console.log(start);
+  console.log(end);
+  console.log(userID);
+  $.ajax({
+    url: "/users/" + userID[0]._id + "/broutes",
+    method: "POST",
+    data: JSON.stringify({content: start})
+  }).done(refreshBroutes);
+  // push start and end to broutes
+  //display list of broutes
+  //click on broute to display map
+};
 
+
+
+function refreshBroutes() {
+  broutesList.forEach(function(broute){
+    var brouteContent = broute.content;
+    var brouteTag = $("<p>", {
+      text: brouteContent
+    });
+    $('#user-data').append(brouteTag);
+  });
 };
