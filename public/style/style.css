@@ -9,22 +9,24 @@ body {
 
 #container{
   margin: 15px;
+  height: 500px;
 }
 
 #map {
   margin: 5px;
   height: 500px;
-  width: 50%;
+  width: 30%;
   padding-left: 100px;
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
   border-color: #1579B6;
+  float: right;
 }
 #top-right{
   float: right;
   position: relative;
-  width: 300px;
+  width: 200px;
   margin: 5px;
 }
 #login-bar{
@@ -49,6 +51,7 @@ body {
   border-radius: 10px;
   border-width: 3px;
   border-color: #1579B6;
+  position: absolute;
 }
 
 #directionsPanel{
@@ -88,7 +91,7 @@ body {
 #logout{
   display: none;
   border-style: outset;
-  float: right; 
+  float: right;
 }
 
 .btn {
@@ -116,4 +119,20 @@ body {
   margin: 5px;
   background-color: #1579B6;
   color: white;
+}
+
+iframe {
+  position: relative;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color: #1579B6;
+}
+
+#elevation_chart {
+  background-color: inherit;
+}
+
+#save-broute-button {
+  display: inline-block;
 }

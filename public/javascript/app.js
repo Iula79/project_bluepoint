@@ -233,22 +233,17 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         // Create a new chart in the elevation_chart DIV.
 
         var chart = new google.visualization.ColumnChart(chartDiv);
-
         // Draw the chart using the data within its DIV.
         chart.draw(data, {
             height: 150,
             legend: 'none',
             titleY: 'Elevation (m)'
         });
+
     }
+
     //setMarkers();
   };
-
-function clearMarkers() {
-  //console.log("clearing markers")
-  setMarkers(null);
-
-}
 
 function setMarkers() {
   //console.log("setting markers");
@@ -304,6 +299,7 @@ function signIn() {
     name: $('#username').val(),
     password: $('#password').val()
   };
+  if (name != "" || password != ""){
   $.get('/users/', userObject, function(data) {
 
   });
@@ -312,6 +308,7 @@ function signIn() {
     console.log(data[0].name);
   }).done(getSaveButton);
   };
+};
 var userID = "";
   function getSaveButton(data) {
     var userDiv = $("<div>", {
@@ -361,9 +358,8 @@ function signOut() {
   }});
   $('#login').css({'display': 'block'});
     $('#logout').css({'display': 'none'});
+    $('#save-broute-button').css({'display': 'none'})
 };
-
-
 
 function saveRoute() {
   console.log('saving route');
@@ -390,6 +386,6 @@ function refreshBroutes() {
     var brouteTag = $("<p>", {
       text: brouteContent
     });
-    $('#user-data').append(brouteTag);
+    $('#map').append(brouteTag);
   });
 };
