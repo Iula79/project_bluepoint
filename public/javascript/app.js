@@ -117,8 +117,8 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
             //console.log(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
             $('#directionsPanel').css('display', 'inline-block');
-            showSteps(response, markerArray, stepDisplay, map);
           }
+          showSteps(response, markerArray, stepDisplay, map);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
@@ -126,7 +126,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 
 
 
-var path1 = [];
+var arrayOfPathsElevations = [];
 
 function showSteps(directionResult, markerArray, stepDisplay, map) {
     // For each step, place a marker, and add the text to the marker's infowindow.
@@ -141,38 +141,38 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     console.log("THIS IS HOW MANY ROUTES THERE ARE AND I AM OUTSIDE OF THE FOR LOOP:");
     console.log(directionResult.routes.length);
     for (var i = 0; i < directionResult.routes.length; i++) {
-    var myRoute = directionResult.routes[i].legs[0];
-    //console.log(directionResult.routes[i].legs[0]);
-    var arrayOfLegs = [];
-    console.log("this is my route " + i);
-    console.log(myRoute);
-    console.log("these are the steps for route " + i)
-    console.log(myRoute.steps);
-    console.log("this is how many steps there are in route " + i)
-    console.log(myRoute.steps.length)
-    for (var j = 0; j < myRoute.steps.length; j++) {
-      console.log("this is step number " + j + "of route " + i);
-      console.log(myRoute.steps[j]);
-      console.log("this is how many lats and length there are in step " + j + "of route " + i)
-      console.log(myRoute.steps[j].lat_lngs.length)
-        for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
-            //console.log("this is how many lat and lengs there are on each latleng array")
-            //console.log(myRoute.steps[j].lat_lngs[f].length)
-            //  console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
-            //  console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
-            var latitude = myRoute.steps[j].lat_lngs[f].lat();
-            var longitude = myRoute.steps[j].lat_lngs[f].lng();
-            latitude_longitudeObj = {
-                lat: latitude,
-                lng: longitude
-            };
-            arrayOfLegs.push(latitude_longitudeObj);
+        var myRoute = directionResult.routes[i].legs[0];
+        //console.log(directionResult.routes[i].legs[0]);
+        var arrayOfLegs = [];
+        console.log("this is my route " + i);
+        console.log(myRoute);
+        console.log("these are the steps for route " + i)
+        console.log(myRoute.steps);
+        console.log("this is how many steps there are in route " + i)
+        console.log(myRoute.steps.length)
+        for (var j = 0; j < myRoute.steps.length; j++) {
+          console.log("this is step number " + j + "of route " + i);
+          console.log(myRoute.steps[j]);
+          console.log("this is how many lats and length there are in step " + j + "of route " + i)
+          console.log(myRoute.steps[j].lat_lngs.length)
+            for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
+                //console.log("this is how many lat and lengs there are on each latleng array")
+                //console.log(myRoute.steps[j].lat_lngs[f].length)
+                //  console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
+                //  console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
+                var latitude = myRoute.steps[j].lat_lngs[f].lat();
+                var longitude = myRoute.steps[j].lat_lngs[f].lng();
+                latitude_longitudeObj = {
+                    lat: latitude,
+                    lng: longitude
+                };
+                arrayOfLegs.push(latitude_longitudeObj);
+            }
         }
-    }
-    //console.log(arrayOfLegs);
-    path1.push(arrayOfLegs);
+    console.log(arrayOfLegs);
+    arrayOfPathsElevations.push(arrayOfLegs);
 }
-
+console.log(arrayOfPathsElevations)
 // var arrayOfLegs = [];
 
 
@@ -193,7 +193,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
 
     // Draw the path, using the Visualization API and the Elevation service.
 
-    displayPathElevation(path1, elevator, map);
+    displayPathElevation(arrayOfPathsElevations, elevator, map);
     //console.log("here!")
 
 
@@ -201,12 +201,12 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     function displayPathElevation(path, elevator, map) {
 
         for (var d =0; d<path.length; d++ ) {
-            newPath = path[d];
+            singlePath = path[d];
             //console.log(newPath)
 
         // Display a polyline of the elevation path.
       new google.maps.Polyline({
-            path: newPath,
+            path: singlePath,
             strokeColor: 'rgb(255, 15, 15) ',
             opacity: 0.4,
             map: map
@@ -216,7 +216,7 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
         // Ask for 256 samples along that path.
         // Initiate the path request.
         elevator.getElevationAlongPath({
-            'path': newPath,
+            'path': singlePath,
             'samples': 10
         }, plotElevation, setMarkers());
     }
