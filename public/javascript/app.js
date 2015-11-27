@@ -133,15 +133,31 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     // Also attach the marker to an array so we can keep track of it and remove it
     // when calculating new routes
     // Loop over all possible routes and print legs
+
+    // a result of a directionResult request is an object for each route, that contains an object "leg" (an array of one element) that contains an array with a certain number of object "steps" that each contains an arrai with a certain number of "lat_long" functions that each contains a lat and a long
+
+    console.log("These are the routes:");
+    console.log(directionResult.routes);
+    console.log("THIS IS HOW MANY ROUTES THERE ARE AND I AM OUTSIDE OF THE FOR LOOP:");
     console.log(directionResult.routes.length);
     for (var i = 0; i < directionResult.routes.length; i++) {
     var myRoute = directionResult.routes[i].legs[0];
-    var path2 = [];
-    console.log(myRoute.steps);
+    //console.log(directionResult.routes[i].legs[0]);
+    var arrayOfLegs = [];
+    console.log("this is my route " + i);
     console.log(myRoute);
+    console.log("these are the steps for route " + i)
+    console.log(myRoute.steps);
+    console.log("this is how many steps there are in route " + i)
+    console.log(myRoute.steps.length)
     for (var j = 0; j < myRoute.steps.length; j++) {
-      // console.log(myRoute.steps[j]);
+      console.log("this is step number " + j + "of route " + i);
+      console.log(myRoute.steps[j]);
+      console.log("this is how many lats and length there are in step " + j + "of route " + i)
+      console.log(myRoute.steps[j].lat_lngs.length)
         for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
+            //console.log("this is how many lat and lengs there are on each latleng array")
+            //console.log(myRoute.steps[j].lat_lngs[f].length)
             //  console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
             //  console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
             var latitude = myRoute.steps[j].lat_lngs[f].lat();
@@ -150,14 +166,11 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
                 lat: latitude,
                 lng: longitude
             };
-
-
+            arrayOfLegs.push(latitude_longitudeObj);
         }
-            path2.push(latitude_longitudeObj);
     }
-
-    console.log(path1);
-    path1.push(path2);
+    //console.log(arrayOfLegs);
+    path1.push(arrayOfLegs);
 }
 
 // var arrayOfLegs = [];
