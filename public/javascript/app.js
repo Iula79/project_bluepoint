@@ -319,7 +319,7 @@ var userID = "";
       id: "save-broute-button"
     });
     userID = data;
-    $('body').append(userDiv);
+    $('#container').append(userDiv);
     $(userDiv).append(saveButton);
     $('#logout').css({'display': 'block'});
     $('#login').css({'display': 'none'});
@@ -386,6 +386,6 @@ function refreshBroutes() {
     var brouteTag = $("<p>", {
       text: brouteContent
     });
-    $('#map').append(brouteTag);
+    $('#user-data').append(brouteTag);
   });
 };
