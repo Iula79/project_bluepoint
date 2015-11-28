@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  loadGoogle();
     $('#show-sign-up').click(function() {
       $('#sign-up-box').animate({
         top: '20px',
@@ -13,21 +14,18 @@ $(document).ready(function() {
     $('#login').click(signIn);
     $('#logout').click(signOut);
     $('#signup').click(signUp);
-
 });
 
 function loadGoogle() {
-    if (typeof google != 'undefined' && google && google.load) {
-        google.load('visualization', '1', {
-            packages: ['columnchart']
-        });
-    } else {
-        setTimeout(loadGoogle, 30);
-    }
+  if(typeof google != 'undefined' && google && google.load)
+  {
+    google.load('visualization', '1', {packages: ['columnchart']});
+    initMap();
+  }
+  else {
+    setTimeout(loadGoogle, 30);
+  }
 }
-
-loadGoogle();
-
 
 function initMap() {
     var markerArray = [];
@@ -69,22 +67,20 @@ function initMap() {
     // Instantiate an info window to hold step text.
     var stepDisplay = new google.maps.InfoWindow();
 
-    // Display the route between the initial start and end selections.
-    calculateAndDisplayRoute(
-        directionsDisplay, directionsService, markerArray, stepDisplay, map);
 
-    // Listen to change events from the start and end lists.
+
 
     map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
-
+// Listen to change events from the start and end lists.
     var onChangeHandler = function() {
+      //console.log("change handler");
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
+
     };
-
-
+    //
     $('#submit').click(onChangeHandler);
-    directionsDisplay.addListener("directions_changed", onChangeHandler);
+    // directionsDisplay.addListener("drag", onChangeHandler);
 
 function calculateAndDisplayRoute(directionsDisplay, directionsService,
     markerArray, stepDisplay, map) {
@@ -105,10 +101,21 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
         // Route the directions and pass the response to a function to create
         // markers for each step.
         if (status === google.maps.DirectionsStatus.OK) {
+          for (var i = 0, len = response.routes.length; i < len; i++) {
+              new google.maps.DirectionsRenderer({
+                  map: map,
+                  directions: response,
+                  draggable: true,
+                  routeIndex: i
+              })
+            //console.log(response.routes[i].warnings);
+            console.log(response.routes);
             directionsDisplay.setDirections(response);
+            //console.log(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
             $('#directionsPanel').css('display', 'inline-block');
-            showSteps(response, markerArray, stepDisplay, map);
+          }
+          showSteps(response, markerArray, stepDisplay, map);
         } else {
             window.alert('Directions request failed due to ' + status);
         }
@@ -116,74 +123,107 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
 
 
 
-var path = [];
+var arrayOfPathsCoordinates = [];
 
-function showSteps(directionResult, markerArray, stepDisplay, map) {
+function showSteps(directionResult) {
     // For each step, place a marker, and add the text to the marker's infowindow.
     // Also attach the marker to an array so we can keep track of it and remove it
-    // when calculating new routes.
-    var myRoute = directionResult.routes[0].legs[0];
-    for (var j = 0; j < myRoute.steps.length; j++) {
-        for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
-            // console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
-            // console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
-            var latitude = myRoute.steps[j].lat_lngs[f].lat();
-            var longitude = myRoute.steps[j].lat_lngs[f].lng();
-            latitude_longitudeObj = {
-                lat: latitude,
-                lng: longitude
-            };
+    // when calculating new routes
+    // Loop over all possible routes and print legs
 
-            path.push(latitude_longitudeObj);
+    // a result of a directionResult request is an object for each route, that contains an object "leg" (an array of one element) that contains an array with a certain number of object "steps" that each contains an array with a certain number of "lat_long" functions that each contains a lat and a long. We are looping over the result in order to get those lat and long.
+
+    console.log("These are the routes:");
+    console.log(directionResult.routes);
+    console.log("THIS IS HOW MANY ROUTES THERE ARE AND I AM OUTSIDE OF THE FOR LOOP:");
+    console.log(directionResult.routes.length);
+    for (var i = 0; i < directionResult.routes.length; i++) {
+        var myRoute = directionResult.routes[i].legs[0];
+        //console.log(directionResult.routes[i].legs[0]);
+        var arrayOfSteps = [];
+        console.log("this is my route " + i);
+        console.log(myRoute);
+        console.log("these are the steps for route " + i)
+        console.log(myRoute.steps);
+        console.log("this is how many steps there are in route " + i)
+        console.log(myRoute.steps.length)
+        setMarkers();
+        for (var j = 0; j < myRoute.steps.length; j++) {
+
+          console.log("this is step number " + j + "of route " + i);
+          console.log(myRoute.steps[j]);
+          console.log("this is how many lats and length there are in step " + j + "of route " + i)
+          console.log(myRoute.steps[j].lat_lngs.length)
+            for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
+                //console.log("this is how many lat and lengs there are on each latleng array")
+                //console.log(myRoute.steps[j].lat_lngs[f].length)
+                //  console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
+                //  console.log("This is the longitude:" + myRoute.steps[j].lat_lngs[f].lng());
+                var latitude = myRoute.steps[j].lat_lngs[f].lat();
+                var longitude = myRoute.steps[j].lat_lngs[f].lng();
+                latitude_longitudeObj = {
+                    lat: latitude,
+                    lng: longitude
+                };
+                arrayOfSteps.push(latitude_longitudeObj);
+            }
         }
-        // console.log(path);
-    }
-
-
-var arrayOfLegs = [];
-
-function createArrayOfLegs(path) {
-    for (var i = 0; i< path.length - 2; i++){
-        var singleArray = [path[i], path[i+1]];
-        arrayOfLegs.push(singleArray);
-    }
-
+    console.log(arrayOfSteps);
+    arrayOfPathsCoordinates.push(arrayOfSteps);
 }
-createArrayOfLegs(path);
+console.log(arrayOfPathsCoordinates)
+// var arrayOfLegs = [];
 
+
+
+// function createArrayOfLegs(path1) {
+//     for (var i = 0; i< path1.length; i++){
+//         var singleArray = [path[i], path[i+1]];
+//         arrayOfLegs.push(singleArray);
+//     }
+//
+// }
+// createArrayOfLegs(path);
+// console.log("this is the array of legs");
+// console.log(arrayOfLegs);
 
     //creating a new location map
-    var elevator = new google.maps.ElevationService();
+var elevator = new google.maps.ElevationService();
 
     // Draw the path, using the Visualization API and the Elevation service.
-    displayPathElevation(arrayOfLegs, elevator, map);
+    displayPathElevation(arrayOfPathsCoordinates, elevator, map);
+    //console.log("here!")
 
 
 
-    function displayPathElevation(arrayOfLegs, elevator, map) {
+    function displayPathElevation(path, elevator, map) {
 
-
-        for (var d =0; d<arrayOfLegs.length; d++ ) {
-            newPath = arrayOfLegs[d];
+        for (var d =0; d<path.length; d++ ) {
+            singlePath = path[d];
+            //console.log(newPath)
 
         // Display a polyline of the elevation path.
-      new google.maps.Polyline({
-            path: newPath,
-            strokeColor: '#0000CC ',
-            opacity: 0.4,
-            map: map
-        });
+          new google.maps.Polyline({
+                path: singlePath,
+                strokeColor: 'rgb(255, 15, 15) ',
+                opacity: 0.4,
+                map: map
+            });
 
         // Create a PathElevationRequest object using this array.
-        // Ask for 256 samples along that path.
+        // Ask for 10 samples along that path.
         // Initiate the path request.
-        elevator.getElevationAlongPath({
-            'path': newPath,
-            'samples': 10
-        }, plotElevation);
-    }
+            elevator.getElevationAlongPath({
+                'path': singlePath,
+                'samples': 10
+            }, plotElevation);
+        }
+
     // Takes an array of ElevationResult objects, draws the path on the map
     // and plots the elevation profile on a Visualization API ColumnChart.
+
+    var elevationList = [];
+
     function plotElevation(elevations, status) {
         var chartDiv = document.getElementById('elevation_chart');
         if (status !== google.maps.ElevationStatus.OK) {
@@ -199,25 +239,38 @@ createArrayOfLegs(path);
         // Because the samples are equidistant, the 'Sample'
         // column here does double duty as distance along the
         // X axis.
+
         var data = new google.visualization.DataTable();
+        console.log("This is data:");
+        console.log(data);
         data.addColumn('string', 'Sample');
         data.addColumn('number', 'Elevation');
         for (var i = 0; i < elevations.length; i++) {
             data.addRow(['', elevations[i].elevation]);
-            // console.log("this is elevations " + elevations[i].elevation);
+
+            //console.log("this is elevations " + elevations[i].elevation);
+            singleSpotElevation = elevations[i].elevation;
+            elevationList.push(singleSpotElevation);
         }
+        console.log("elevationList: " + elevationList);
 
         // Create a new chart in the elevation_chart DIV.
 
         var chart = new google.visualization.ColumnChart(chartDiv);
-
         // Draw the chart using the data within its DIV.
         chart.draw(data, {
             height: 150,
             legend: 'none',
             titleY: 'Elevation (m)'
         });
+
     }
+
+    //setMarkers();
+  };
+
+function setMarkers() {
+  //console.log("setting markers");
 
     for (var i = 0; i < myRoute.steps.length; i++) {
         //is the double marker necessary?
@@ -228,11 +281,45 @@ createArrayOfLegs(path);
             stepDisplay, marker, myRoute.steps[i].instructions, map);
     }
 }
+directionsDisplay.addListener("drag", initMap);
 
 
-};
+}
 
-};
+}
+
+function standardDeviation(array) {
+    var avg = average(array);
+
+    var squareDiffs = array.map(function(value) {
+        var diff = value - avg;
+        var sqrDiff = diff * diff;
+        return sqrDiff;
+    });
+
+    var avgSquareDiff = average(squareDiffs);
+
+    var stdDev = Math.sqrt(avgSquareDiff);
+    return stdDev;
+}
+
+function average(array) {
+
+    var total = 0;
+    array.forEach(function(val) {
+        total += val;
+    });
+
+    var avg = total / array.length;
+    console.log(avg);
+}
+
+function calculateBestPath(paths){
+
+
+
+
+}
 
 function attachInstructionText(stepDisplay, marker, text, map) {
     google.maps.event.addListener(marker, 'click', function() {
@@ -275,6 +362,7 @@ function signIn() {
   $.post('/sessions/', userObject, function(data){
   }).done(getSaveButton);
   };
+
 var userID = "";
   function getSaveButton(data) {
     var userDiv = $("<div>", {
@@ -317,7 +405,9 @@ function signOut() {
   }});
   $('#user-data').remove();
   $('#login').css({'display': 'block'});
-    $('#logout').css({'display': 'none'});
+  $('#logout').css({'display': 'none'});
+  $("#start").val("");
+  $("#end").val("");
 };
 
 function saveRoute() {
@@ -390,9 +480,9 @@ function appendBroute(data) {
 
 };
 
-function getRouteValues(data){
+var getRouteValues = function(data){
   console.log(data)
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
-  initMap();
+  $("#submit").click();
 };
