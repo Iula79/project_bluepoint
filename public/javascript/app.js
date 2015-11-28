@@ -105,7 +105,6 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
         // Route the directions and pass the response to a function to create
         // markers for each step.
         if (status === google.maps.DirectionsStatus.OK) {
-            console.log(response.routes[0].warnings);
             directionsDisplay.setDirections(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
             $('#directionsPanel').css('display', 'inline-block');
@@ -124,7 +123,6 @@ function showSteps(directionResult, markerArray, stepDisplay, map) {
     // Also attach the marker to an array so we can keep track of it and remove it
     // when calculating new routes.
     var myRoute = directionResult.routes[0].legs[0];
-    console.log(myRoute.steps);
     for (var j = 0; j < myRoute.steps.length; j++) {
         for (var f = 0; f < myRoute.steps[j].lat_lngs.length; f++) {
             // console.log("This is the latitude:" + myRoute.steps[j].lat_lngs[f].lat());
@@ -152,8 +150,7 @@ function createArrayOfLegs(path) {
 
 }
 createArrayOfLegs(path);
-console.log("this is the array of legs");
-console.log(arrayOfLegs);
+
 
     //creating a new location map
     var elevator = new google.maps.ElevationService();
@@ -380,19 +377,21 @@ function appendBroute(data) {
     });
     $('.load-route-button').on('click', function(){
       $.ajax({
-        url: '/users/' + userID[0]._id + "/broutes/" + $('.load-route-button').attr('id'),
+        url: '/users/' + userID[0]._id + "/broutes/" + $(this).attr('id'),
         method: "GET"
       }).done(getRouteValues);
+        });
     $('.delete-button').on('click', function(){
       $.ajax({
         url: "/users/" + userID[0]._id + "/broutes/" + $('.delete-button').attr("id"),
         method: "DELETE"
       }).done(emptyBrouteList);
     });
-  });
+
 };
 
 function getRouteValues(data){
+  console.log(data)
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
   initMap();
