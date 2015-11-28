@@ -224,14 +224,8 @@ var elevator = new google.maps.ElevationService();
 
     var elevationList = [];
 
-    function plotElevation(elevations, d, status) {
-        var chartDiv = $('<div>', {
-            class:'col-md-9',
-            id:'elevation_chart' + d
-        })
-        console.log(chartDiv);
-        $(container).append(chartDiv)
-        //var chartDiv = document.getElementById('elevation_chart');
+    function plotElevation(elevations, status) {
+        var chartDiv = document.getElementById('elevation_chart');
         if (status !== google.maps.ElevationStatus.OK) {
             // Show the error code inside the chartDiv.
             chartDiv.innerHTML = 'Cannot show elevation: request failed because ' +
@@ -269,7 +263,6 @@ var elevator = new google.maps.ElevationService();
             legend: 'none',
             titleY: 'Elevation (m)'
         });
-        //$('container').append('<div>')
 
     }
 
