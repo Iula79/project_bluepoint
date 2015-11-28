@@ -232,9 +232,7 @@ var elevator = new google.maps.ElevationService();
                 status;
             return;
         }
-        google.load('visualization', '1', {
-            packages: ['columnchart']
-        });
+        
         // Extract the data from which to populate the chart.
         // Because the samples are equidistant, the 'Sample'
         // column here does double duty as distance along the
