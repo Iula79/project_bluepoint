@@ -113,7 +113,7 @@ function calculateAndDisplayRoute(directionsDisplay, directionsService,
             directionsDisplay.setDirections(response);
             //console.log(response);
             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
-            $('#directionsPanel').css('display', 'inline-block');
+            $('#directionsPanel').css({'display': 'inline-block'});
           }
           showSteps(response, markerArray, stepDisplay, map);
         } else {
@@ -360,7 +360,7 @@ function signIn() {
   $.get('/users/', userObject, function(data) {
   });
   $.post('/sessions/', userObject, function(data){
-  }).done(getSaveButton);
+  }).done(getSaveButton, getUpdateButton);
   };
 
 var userID = "";
@@ -386,6 +386,62 @@ var userID = "";
     }).done(showBroutes);
 };
 
+var getUpdateButton = function(){
+  var updateButton = $("<button>", {
+    id: "update-button",
+    text: "update profile"
+  });
+  $("#user-data").append(updateButton);
+  updateButton.on('click', showUpdateForm);
+};
+
+var showUpdateForm = function(){
+  var updateForm = $("<div>", {
+    id: "update-form",
+  });
+
+  var updateName = $("<input>", {
+    id: "update-name",
+    placeholder: "Update Name"
+  });
+  var updateEmail = $("<input>", {
+    id: "update-email",
+    placeholder: "Update Email"
+  });
+  var submitUpdate = $("<button>", {
+    id: "submit-update",
+    text: "Change Profile"
+  });
+  $(updateForm).remove();
+  $(updateForm).append(updateName);
+  $(updateForm).append(updateEmail);
+  $(updateForm).append(submitUpdate);
+  $('#user-data').append(updateForm);
+
+  submitUpdate.on('click', changeProfile);
+};
+
+var changeProfile = function(){
+  if ($('#update-name').val() == "" || $('#update-email').val() == "") {
+    alert("Please enter name and email");
+  } else {
+  var userObject = {
+    name: $('#update-name').val(),
+    email: $('#update-email').val()
+  };
+  $.ajax({
+    url: "/users/" + userID[0]._id,
+    method: "PUT",
+    data: userObject
+  }).done(removeUpdateForm);
+};
+};
+
+var removeUpdateForm = function(){
+  $('#update-form').detach();
+};
+
+
 function showBroutes(data) {
   var savedBroutesDiv = $("<div>", {
     id: "saved-broutes-div"
@@ -408,6 +464,8 @@ function signOut() {
   $('#logout').css({'display': 'none'});
   $("#start").val("");
   $("#end").val("");
+  initMap();
+  $('#directionsPanel').css({'display': 'none'});
 };
 
 function saveRoute() {
@@ -477,12 +535,11 @@ function appendBroute(data) {
         method: "DELETE"
       }).done(emptyBrouteList);
     });
-
 };
 
 var getRouteValues = function(data){
-  console.log(data)
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
+  initMap();
   $("#submit").click();
 };
