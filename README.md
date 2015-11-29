@@ -11,7 +11,7 @@ Our app was designed to find the path between two points that offers the fewest 
 + Express
 + MongoDB
 + JQuery
-+ Chart.js
+
 
 ### App abilities and functionality: 
 
@@ -25,3 +25,4 @@ Our app also allows users to create a unique account and save favorite routes.  
 ### Sources:
 
 Standard deviation: http://derickbailey.com/
+Charts: http://www.chartjs.org/
