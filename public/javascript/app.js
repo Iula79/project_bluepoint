@@ -594,7 +594,7 @@ function appendBroute(data) {
         });
     $('.delete-button').on('click', function(){
       $.ajax({
-        url: "/users/" + userID[0]._id + "/broutes/" + $('.delete-button').attr("id"),
+        url: "/users/" + userID[0]._id + "/broutes/" + $(this).attr("id"),
         method: "DELETE"
       }).done(emptyBrouteList);
     });
