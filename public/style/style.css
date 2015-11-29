@@ -24,9 +24,9 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   float: left;
-  box-shadow: 5px 5px rgba(191, 191, 191, 0.51);
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 #top-right{
   float: right;
@@ -41,8 +41,8 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
-  box-shadow: 5px 5px rgba(191, 191, 191, 0.51);
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 #floating-panel {
@@ -56,10 +56,10 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   position: relative;
   float: right;
-  box-shadow: 5px 5px rgba(191, 191, 191, 0.51);
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 #directionsPanel{
@@ -72,7 +72,7 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   background-color: rgba(11, 118, 228, 0.36);
 }
 
@@ -86,8 +86,8 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
-  box-shadow: 5px 5px rgba(191, 191, 191, 0.51);
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 .form-control {
@@ -102,26 +102,32 @@ body {
   display: none;
   border-style: outset;
   float: right;
+  border-radius: 10px;
+  
 }
 
 button {
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
+  border-radius: 10px;
+  border-style: outset;
 }
 
 .btn {
   margin: 10px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
   float: right;
+  border-radius: 10px;
+  border-style: outset;
 }
 
 #show-sign-up {
   margin: 30px;
   border-style: outset;
-  border-radius: 2px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
+  border-radius: 10px;
 }
 
 input {
@@ -139,7 +145,7 @@ input {
 
 #submit {
   margin: 5px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
 }
 
@@ -148,7 +154,7 @@ iframe {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
 }
 
 #elevation_chart {
@@ -167,8 +173,8 @@ iframe {
   border: solid;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   background-color: white;
   margin: 5px;
-  box-shadow: 5px 5px rgba(191, 191, 191, 0.51);
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }

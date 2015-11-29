@@ -362,7 +362,9 @@ function initMap() {
                         if (min === deviationsObjects[j].deviation) {
                             alert("the best path is " + deviationsObjects[j].pathName);
                           // console.log(myLineChart.datasets[j].fillColor);
-                          if(myLineChart.datasets[j] != undefined) {
+                          if(myLineChart.datasets[j] == undefined) {
+                          } else {
+
                             myLineChart.datasets[j].fillColor = "rgb(14, 248, 255)";
                           }
                             new google.maps.Polyline({
