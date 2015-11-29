@@ -1,5 +1,6 @@
 #Project Blue Point Route Finder: 
 ## "Because your commute doesn't have to be an uphill battle" 
+--------------------
 
 ### Mission Statement: 
 Our app was designed to find the path between two points that offers the fewest number of hills.  Thus, making your trip a lot easier.
