@@ -139,3 +139,7 @@ iframe {
 #user-data {
   position: relative;
 }
+.canvas {
+    height:400;
+    width:500;
+}
