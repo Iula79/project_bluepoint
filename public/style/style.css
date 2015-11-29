@@ -93,6 +93,14 @@ body {
   display: none;
   border-style: outset;
   float: right;
+<<<<<<< HEAD
+=======
+}
+
+button {
+  background-color: #1579B6;
+  color: white;
+>>>>>>> ae03b6a40ebbcbeeb7f561d538973f7ac661a935
 }
 
 .btn {
@@ -108,6 +116,12 @@ body {
   border-radius: 2px;
   background-color: #1579B6;
   color: white;
+}
+
+input {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
 }
 
 .input-box {

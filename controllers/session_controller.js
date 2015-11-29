@@ -7,6 +7,13 @@ module.exports.controller = function(app) {
     User.find({
       name: req.body.name
     }).exec(function(err, user) {
+      if (req.body.password == undefined || req.body.name == undefined){
+        res.status(400);
+        res.send({
+          err: 400,
+          msg: 'enter username and password'
+        });
+      } else if (user[0] != undefined) {
       user[0].comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch) {
           console.log('Login Successful');
@@ -14,7 +21,6 @@ module.exports.controller = function(app) {
           req.session.currentUser = user[0]._id;
           res.send(user);
         } else {
-          console.log(user[0]._id);
           res.status(400);
           res.send({
             err: 400,
@@ -22,6 +28,9 @@ module.exports.controller = function(app) {
           });
         }
       });
+    } else {
+      console.log("wrong username/password");
+    }
     });
   });
 
