@@ -128,3 +128,7 @@ input {
   background-color: #1579B6;
   color: white;
 }
+
+#user-greeting {
+  font-size: 20px;
+}

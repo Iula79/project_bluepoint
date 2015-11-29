@@ -62,6 +62,22 @@ function initMap() {
         draggable: true
     });
 
+    function setMapOnAll(map) {
+  for (var i = 0; i < markerArray.length; i++) {
+    markerArray[i].setMap(null);
+  }
+}
+
+    function clearMarkers() {
+  setMapOnAll(null);
+}
+    function deleteMarkers() {
+  clearMarkers();
+  // markerArray = [];
+  console.log(markerArray);
+  console.log("deleteMarkers");
+}
+
 
     // Instantiate an info window to hold step text.
     var stepDisplay = new google.maps.InfoWindow();
@@ -72,6 +88,7 @@ function initMap() {
     map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
     // Listen to change events from the start and end lists.
     var onChangeHandler = function() {
+      deleteMarkers();
         //console.log("change handler");
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
@@ -410,15 +427,22 @@ function signIn() {
 
 var userID = "";
   function getSaveButton(data) {
+    userID = data;
     var userDiv = $("<div>", {
       id: "user-data"
+    });
+    var userGreeting = $("<p>", {
+      id: "user-greeting",
+      text: "Hello " + userID[0].name,
     });
     var saveButton = $("<button>", {
       text: "Save Broute",
       id: "save-broute-button"
     });
-    userID = data;
-    $('body').append(userDiv);
+
+    $('#user-container').append(userDiv);
+    $(userDiv).prepend($("<hr>"));
+    $(userDiv).append(userGreeting);
     $(userDiv).append(saveButton);
     $('#logout').css({'display': 'block'});
     $('#login').css({'display': 'none'});
@@ -502,6 +526,7 @@ var removeUpdateForm = function(){
 var updateUserID = function(data){
   userID[0].name = data.name;
   userID[0].email = data.email;
+  $("#user-greeting").text("Hello " + userID[0].name);
   console.log(userID);
 }
 
