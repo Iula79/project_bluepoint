@@ -22,3 +22,6 @@ We were able to then utilize this data and the standard deviation from the avera
 All users on our site will be able to search for the ideal route between any two given points.
 Our app also allows users to create a unique account and save favorite routes.  These favorite routes will display when the user is signed in. 
 
+### Sources:
+
+Standard deviation: http://derickbailey.com/
