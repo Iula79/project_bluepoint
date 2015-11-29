@@ -27,6 +27,7 @@ function loadGoogle() {
 }
 
 function initMap() {
+
     var markerArray = [];
 
 
@@ -76,8 +77,6 @@ function initMap() {
         //console.log("change handler");
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
-
-
     };
     //
     $('#submit').click(onChangeHandler);
@@ -216,7 +215,7 @@ function initMap() {
                     // Initiate the path request.
                     elevator.getElevationAlongPath({
                         'path': singlePath,
-                        'samples': 10
+                        'samples': 20
                     }, plotElevation);
                     //for resultset in response['results']:
                     // elevationArray = [];
@@ -273,7 +272,7 @@ function initMap() {
                     //     titleY: 'Elevation (m)'
                     // });
                     var data = {
-                        labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10"],
+                        labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10", "step11", "step12", "step13", "step14", "step15", "step16", "step17", "step18","step19","step20"],
                         datasets: [{
 
                             label: "My First dataset",
@@ -338,7 +337,7 @@ function initMap() {
                         deviationsArray.push(deviation);
                         deviationsObjects.push(myObject);
                         var data = {
-                            labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10"],
+                          labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10", "step11", "step12", "step13", "step14", "step15", "step16", "step17", "step18","step19","step20"],
                             datasets: [{
 
                                 label: "My First dataset",
@@ -362,9 +361,8 @@ function initMap() {
                     for (var j = 0; j < deviationsObjects.length; j++) {
                         if (min === deviationsObjects[j].deviation) {
                             alert("the best path is " + deviationsObjects[j].pathName);
-                          console.log(myLineChart.datasets[j].fillColor)
-                          if(myLineChart.datasets[j] == undefined) {
-                          } else {
+                          // console.log(myLineChart.datasets[j].fillColor);
+                          if(myLineChart.datasets[j] != undefined) {
                             myLineChart.datasets[j].fillColor = "rgb(14, 248, 255)";
                           }
                             new google.maps.Polyline({
@@ -641,6 +639,6 @@ function appendBroute(data) {
 var getRouteValues = function(data){
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
-  initMap();
+  // initMap();
   $("#submit").click();
 };
