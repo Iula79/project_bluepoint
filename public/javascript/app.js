@@ -13,7 +13,12 @@ $(document).ready(function() {
     $('#login').click(signIn);
     $('#logout').click(signOut);
     $('#signup').click(signUp);
+    $("#logo").click(function() {
+    //window.location.href = "http://host.oddcast.com/api_misc/1300/thankyou.php?do=download&md5=2d13d901966a8eaa7f9c943eba6a540b&id=9561 "
+    });
 });
+
+
 
 function loadGoogle() {
     if (typeof google != 'undefined' && google && google.load) {
@@ -75,6 +80,28 @@ function initMap() {
     // Listen to change events from the start and end lists.
     var onChangeHandler = function() {
         //console.log("change handler");
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: {
+                lat: 40.771,
+                lng: -73.974
+            },
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.TOP_CENTER
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.LEFT_CENTER
+            },
+            scaleControl: true,
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.LEFT_TOP
+            }
+        });
+
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
     };
