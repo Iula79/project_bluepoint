@@ -2,6 +2,7 @@ body {
   background-color: white;
   background: -webkit-linear-gradient(top, white, rgba(0,0,0,.5));
   background: -moz-linear-gradient(top, white, rgba(0,0,0,.5));
+  height: 100%;
 }
 
 #logo {
@@ -103,7 +104,7 @@ body {
   border-style: outset;
   float: right;
   border-radius: 10px;
-  
+
 }
 
 button {
@@ -151,6 +152,7 @@ input {
 
 iframe {
   position: relative;
+  display: inline; 
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
@@ -158,6 +160,7 @@ iframe {
 }
 
 #elevation_chart {
+  display: inline;
   background-color: white;
   background: -webkit-linear-gradient(bottom, white, rgba(0,0,0,.4));
   background: -moz-linear-gradient(bottom, white, rgba(0,0,0,.4));
