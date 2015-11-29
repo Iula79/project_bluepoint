@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Project Blue Point</title>
+  <title>TEST TEST </title>
   <style type="text/css">
   html, body { height: 100%; margin: 0; padding: 0; }
   #map { height: 500px; width: 400px; }
@@ -14,15 +14,11 @@
 </head>
 <body>
   <script type="text/javascript" src= "http://www.google.com/jsapi"></script>
-  <script
-  src="https://maps.googleapis.com/maps/api/js">
-  </script>
   <script type="text/javascript">
   function loadGoogle() {
     if(typeof google != 'undefined' && google && google.load)
     {
       google.load('visualization', '1', {packages: ['columnchart']});
-      initMap();
     }
     else {
       setTimeout(loadGoogle, 30);
@@ -30,14 +26,8 @@
   }
   loadGoogle();
   </script>
-<<<<<<< HEAD
-  <!-- <script async defer
-  src="https://maps.googleapis.com/maps/api/js">
-  </script> -->
-=======
 <script type="text/javascript" src="/javascript/app.js"></script>
 
->>>>>>> ae03b6a40ebbcbeeb7f561d538973f7ac661a935
   <image id="logo" src="./images/BP_logo.png"></image>
   <div id="container">
     <div class="col-sm-12" id="top-right" >
@@ -69,13 +59,6 @@
       </div>
 
       <div class="col-md-6 panel" id="map"></div>
-<<<<<<< HEAD
-    </div>
-      <div class="col-md-9 panel"id="elevation_chart"></div>
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
-    <script type="text/javascript" src="/javascript/app4.js"></script>
-=======
       <div class="col-md-9 panel"id="elevation_chart"></div>
 
     </div>
@@ -83,6 +66,5 @@
     src="https://maps.googleapis.com/maps/api/js?&callback=initMap">
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
->>>>>>> ae03b6a40ebbcbeeb7f561d538973f7ac661a935
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 </html>

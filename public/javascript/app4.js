@@ -204,7 +204,7 @@ function initMap() {
                     // Display a polyline of the elevation path.
                     new google.maps.Polyline({
                         path: singlePath,
-                        strokeColor: 'rgb(255, 15, 15) ',
+                        strokeColor: 'rgb(255, 15, 15)',
                         opacity: 0.4,
                         map: map
                     });
@@ -222,6 +222,7 @@ function initMap() {
                     // console.log("this is elevationArray");
                     // console.log(elevationArray);
                 }
+
 
                 // Takes an array of ElevationResult objects, draws the path on the map
                 // and plots the elevation profile on a Visualization API ColumnChart.
@@ -284,6 +285,7 @@ function initMap() {
                     };
                     var ctx = document.getElementById("MyChart" + "0").getContext("2d");
                     var myLineChart = new Chart(ctx).Line(data)
+                    myLineChart.append(container)
 
                     calculateBestPath(arrayOfPathElevations);
                     // end of plotElevation
@@ -338,6 +340,7 @@ function initMap() {
                     for (var j = 0; j < deviationsObjects.length; j++) {
                         if (min === deviationsObjects[j].deviation) {
                             alert("the best path is " + deviationsObjects[j].pathName)
+                            var bestPath = deviationsObjects[j].pathName;
                             return deviationsObjects[j].pathName;
                         }
                     }
@@ -375,136 +378,234 @@ function initMap() {
         });
     }
     //end of initMap
-}
+};
 
-function signUp() {
-    console.log("sign me up")
-    var userObject = {
-        name: $('#newUsername').val(),
-        password: $('#newPassword').val(),
-        email: $('#newEmail').val()
-    }
-    $.post('/users/', userObject, function(data) {
-        console.log(data);
-    });
-    $('#newUsername').val('');
-    $('#newPassword').val('');
-    $('#newEmail').val('');
-    $('#passwordConfirmation').val('');
-    $('#sign-up-box').animate({
-        opacity: '0.0'
-    })
-
+function signUp(){
+  console.log("sign me up")
+  var userObject = {
+    name: $('#newUsername').val(),
+    password: $('#newPassword').val(),
+    email: $('#newEmail').val()
+       }
+  $.post('/users/', userObject, function(data) {
+    console.log(data);
+  });
+  $('#newUsername').val('');
+  $('#newPassword').val('');
+  $('#newEmail').val('');
+  $('#passwordConfirmation').val('');
+  $('#sign-up-box').animate({
+    opacity: '0.0'
+  })
 };
 
 function signIn() {
-    console.log("signing in")
-    var userObject = {
-        name: $('#username').val(),
-        password: $('#password').val()
-    };
-    if (name != "" || password != "") {
-        $.get('/users/', userObject, function(data) {
+  console.log("signing in");
+  var userObject = {
+    name: $('#username').val(),
+    password: $('#password').val()
+  };
+  $.get('/users/', userObject, function(data) {
+  });
+  $.post('/sessions/', userObject, function(data){
+  }).done(getSaveButton, getUpdateButton);
+  };
 
-        });
-        $.post('/sessions/', userObject, function(data) {
-            console.log(data);
-            console.log(data[0].name);
-        }).done(getSaveButton);
-    };
-};
 var userID = "";
-
-function getSaveButton(data) {
+  function getSaveButton(data) {
     var userDiv = $("<div>", {
-        id: "user-data"
+      id: "user-data"
     });
     var saveButton = $("<button>", {
-        text: "Save Broute",
-        id: "save-broute-button"
+      text: "Save Broute",
+      id: "save-broute-button"
     });
     userID = data;
-    $('#container').append(userDiv);
+    $('body').append(userDiv);
     $(userDiv).append(saveButton);
-    $('#logout').css({
-        'display': 'block'
-    });
-    $('#login').css({
-        'display': 'none'
-    });
+    $('#logout').css({'display': 'block'});
+    $('#login').css({'display': 'none'});
     $('#username').val('');
     $('#password').val('');
     $('#save-broute-button').on('click', saveRoute);
-    console.log("/users/" + data[0]._id + "/broutes");
     $.ajax({
-        url: "/users/" + data[0]._id + "/broutes",
-        method: "GET"
+      url: "/users/" + data[0]._id + "/broutes",
+      method: "GET"
     }).done(showBroutes);
 };
-var broutesList = "";
+
+var getUpdateButton = function(){
+  var updateButton = $("<button>", {
+    id: "update-button",
+    text: "update profile"
+  });
+  $("#user-data").append(updateButton);
+  updateButton.on('click', showUpdateForm);
+};
+
+var showUpdateForm = function(){
+  var updateForm = $("<div>", {
+    id: "update-form",
+  });
+  var updateName = $("<input>", {
+    id: "update-name",
+    placeholder: "Update Name"
+  });
+  var updateEmail = $("<input>", {
+    id: "update-email",
+    placeholder: "Update Email"
+  });
+  var submitUpdate = $("<button>", {
+    id: "submit-update",
+    text: "Change Profile"
+  });
+  var currentProfile = $("<p>", {
+    id: "current-profile",
+    text: "Name: " + userID[0].name + ", Email: " + userID[0].email
+  });
+  var cancelUpdate = $("<button>", {
+    id: "cancel-update",
+    text: "Cancel Update"
+  })
+  $(updateForm).remove();
+  $(updateForm).append(currentProfile);
+  $(updateForm).append(updateName);
+  $(updateForm).append(updateEmail);
+  $(updateForm).append(submitUpdate);
+  $(updateForm).append(cancelUpdate);
+  $('#user-data').append(updateForm);
+
+  submitUpdate.on('click', changeProfile);
+  cancelUpdate.on('click', removeUpdateForm);
+};
+
+var changeProfile = function(){
+  if ($('#update-name').val() == "" || $('#update-email').val() == "") {
+    alert("Please enter name and email");
+  } else {
+  var userObject = {
+    name: $('#update-name').val(),
+    email: $('#update-email').val()
+  };
+  $.ajax({
+    url: "/users/" + userID[0]._id,
+    method: "PUT",
+    data: userObject
+  }).done(removeUpdateForm);
+};
+};
+
+var removeUpdateForm = function(){
+  $('#update-form').detach();
+  $.ajax({
+    url: "/users/" + userID[0]._id,
+    method: "GET"
+  }).done(updateUserID);
+};
+var updateUserID = function(data){
+  userID[0].name = data.name;
+  userID[0].email = data.email;
+  console.log(userID);
+}
 
 function showBroutes(data) {
-    broutesList = data;
-    console.log(data);
-    data.forEach(function(broute) {
-        var brouteContent = broute.content;
-        var brouteTag = $("<p>", {
-            text: brouteContent
-        });
-        $('#user-data').append(brouteTag);
-    });
-
+  var savedBroutesDiv = $("<div>", {
+    id: "saved-broutes-div"
+  });
+  $('#user-data').append(savedBroutesDiv);
+  appendBroute(data);
 };
 
 function signOut() {
-    console.log("signing out");
-    userID = "";
-    broutesList = "";
-    $.ajax({
-        url: '/sessions',
-        method: 'DELETE',
-        success: function() {
-            console.log('logged out');
-        }
-    });
-    $('#login').css({
-        'display': 'block'
-    });
-    $('#logout').css({
-        'display': 'none'
-    });
-    $('#save-broute-button').css({
-        'display': 'none'
-    })
+  console.log("signing out");
+  userID = "";
+  $.ajax({
+    url: '/sessions',
+    method: 'DELETE',
+    success: function() {
+      console.log('logged out');
+  }});
+  $('#user-data').remove();
+  $('#login').css({'display': 'block'});
+  $('#logout').css({'display': 'none'});
+  $("#start").val("");
+  $("#end").val("");
+  initMap();
+  $('#directionsPanel').css({'display': 'none'});
 };
 
 function saveRoute() {
-    console.log('saving route');
-    var start = $('#start').val();
-    var end = $('#end').val();
-    console.log(start);
-    console.log(end);
-    console.log(userID);
-    $.ajax({
-        url: "/users/" + userID[0]._id + "/broutes",
-        method: "POST",
-        data: JSON.stringify({
-            content: start
-        })
-    }).done(refreshBroutes);
-    // push start and end to broutes
-    //display list of broutes
-    //click on broute to display map
+  console.log('saving route');
+  var start = $('#start').val();
+  var end = $('#end').val();
+  var brouteObject = {
+    startPoint: start,
+    endPoint: end
+  };
+  $.post("/users/" + userID[0]._id + "/broutes", brouteObject, function(data) {
+  }).done(emptyBrouteList);
 };
 
+function getRouteToDelete(){
+  $.ajax({
+    url: "/users/" + userID[0]._id + "/broutes",
+    method: "GET"
+  }).done(deleteRoute);
+};
 
+function emptyBrouteList(){
+  $('#saved-broutes-div').empty();
+  $.ajax({
+    url: "/users/" + userID[0]._id + "/broutes",
+    method: "GET"
+  }).done(appendBroute);
+};
 
-function refreshBroutes() {
-    broutesList.forEach(function(broute) {
-        var brouteContent = broute.content;
-        var brouteTag = $("<p>", {
-            text: brouteContent
-        });
-        $('#user-data').append(brouteTag);
+function appendBroute(data) {
+  data.forEach(function(broute){
+    var brouteStart = broute.startPoint;
+    var brouteEnd = broute.endPoint;
+    var brouteStart = broute.startPoint;
+    var brouteEnd = broute.endPoint;
+    var brouteID = broute._id;
+    var deleteButton = $("<button>", {
+      class: "delete-button",
+      id: brouteID,
+      text: "Delete Route"
     });
+    var loadRouteButton = $("<button>", {
+      class: "load-route-button",
+      id: brouteID,
+      text: "Load Route"
+    });
+    var oneBroute = $("<div>",{
+      class: "one-broute",
+    });
+    var brouteTag = $("<p>", {
+      text: "Start: " + brouteStart + ", End: " + brouteEnd
+    });
+    $(oneBroute).append(brouteTag);
+    $(oneBroute).append(loadRouteButton);
+    $(oneBroute).append(deleteButton);
+    $('#saved-broutes-div').append(oneBroute);
+    });
+    $('.load-route-button').on('click', function(){
+      $.ajax({
+        url: '/users/' + userID[0]._id + "/broutes/" + $(this).attr('id'),
+        method: "GET"
+      }).done(getRouteValues);
+        });
+    $('.delete-button').on('click', function(){
+      $.ajax({
+        url: "/users/" + userID[0]._id + "/broutes/" + $('.delete-button').attr("id"),
+        method: "DELETE"
+      }).done(emptyBrouteList);
+    });
+};
+
+var getRouteValues = function(data){
+  $("#start").val(data.startPoint);
+  $("#end").val(data.endPoint);
+  initMap();
+  $("#submit").click();
 };

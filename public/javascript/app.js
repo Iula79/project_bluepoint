@@ -20,7 +20,7 @@ function loadGoogle() {
         google.load('visualization', '1', {
             packages: ['columnchart']
         });
-        initMap();
+        // initMap();
     } else {
         setTimeout(loadGoogle, 30);
     }
@@ -59,7 +59,8 @@ function initMap() {
     // Create a renderer for directions and bind it to the map.
     var directionsDisplay = new google.maps.DirectionsRenderer({
         map: map,
-        draggable: true
+        draggable: true,
+
     });
 
 
@@ -113,7 +114,8 @@ function initMap() {
                         map: map,
                         directions: response,
                         draggable: true,
-                        routeIndex: i
+                        routeIndex: i,
+
                     });
                     //console.log(response.routes[i].warnings);
                     console.log(response.routes);
@@ -202,12 +204,12 @@ function initMap() {
                     }).appendTo('#container');
 
                     // Display a polyline of the elevation path.
-                    new google.maps.Polyline({
-                        path: singlePath,
-                        strokeColor: 'rgb(255, 15, 15) ',
-                        opacity: 0.4,
-                        map: map
-                    });
+                    // new google.maps.Polyline({
+                    //     path: singlePath,
+                    //     strokeColor: 'rgb(255, 15, 15) ',
+                    //     opacity: 0.4,
+                    //     map: map
+                    // });
 
                     // Create a PathElevationRequest object using this array.
                     // Ask for 10 samples along that path.
@@ -259,7 +261,8 @@ function initMap() {
                     }
                     console.log("elevationList: " + elevationList);
 
-                    arrayOfPathElevations.push(elevationList);;
+                    arrayOfPathElevations.push(elevationList);
+                    console.log(arrayOfPathElevations);
                     // Create a new chart in the elevation_chart DIV.
 
                     // var chart = new google.visualization.ColumnChart(chartDiv);
@@ -272,6 +275,7 @@ function initMap() {
                     var data = {
                         labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10"],
                         datasets: [{
+
                             label: "My First dataset",
                             fillColor: "rgba(220,220,220,0.2)",
                             strokeColor: "rgba(220,220,220,1)",
@@ -279,7 +283,8 @@ function initMap() {
                             pointStrokeColor: "#fff",
                             pointHighlightFill: "#fff",
                             pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: elevationList
+                            data: elevationList,
+
                         }]
                     };
                     var ctx = document.getElementById("MyChart" + "0").getContext("2d");
@@ -319,6 +324,7 @@ function initMap() {
 
                     console.log("this is paths");
                     console.log(paths);
+
                     console.log(paths.length);
                     deviationsObjects = [];
                     deviationsArray = [];
@@ -331,15 +337,47 @@ function initMap() {
                         var deviation = standardDeviation(paths[i]);
                         deviationsArray.push(deviation);
                         deviationsObjects.push(myObject);
+                        var data = {
+                            labels: ["step1", "step2", "step3", "step4", "step5", "step6", "step7", "step8","step9","step10"],
+                            datasets: [{
+
+                                label: "My First dataset",
+                                fillColor: "rgba(255, 0, 0, 0.2)",
+                                strokeColor: "rgba(220,220,220,1)",
+                                pointColor: "rgba(220,220,220,1)",
+                                pointStrokeColor: "#fff",
+                                pointHighlightFill: "#fff",
+                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                data: paths[i]
+                            }]
+                        };
+                        var ctx = document.getElementById("MyChart" + [i]).getContext("2d");
+
+                        var myLineChart = new Chart(ctx).Line(data)
+
                     }
                     console.log(deviationsArray);
                     console.log(deviationsObjects);
                     var min = Math.min(...deviationsArray);
                     for (var j = 0; j < deviationsObjects.length; j++) {
                         if (min === deviationsObjects[j].deviation) {
-                            alert("the best path is " + deviationsObjects[j].pathName)
+                            alert("the best path is " + deviationsObjects[j].pathName);
+                          console.log(myLineChart.datasets[j].fillColor)
+                          if(myLineChart.datasets[j] == undefined) {
+                          } else {
+                            myLineChart.datasets[j].fillColor = "rgb(14, 248, 255)";
+                          }
+                            new google.maps.Polyline({
+                                path: singlePath,
+                                strokeColor: 'rgb(14, 248, 255)',
+                                opacity: 1.0,
+                                map: map,
+                                strokeWeight: 15
+                            });
+
                             return deviationsObjects[j].pathName;
                         }
+
                     }
                 }
 
