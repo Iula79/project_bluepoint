@@ -13,7 +13,7 @@ module.exports.controller = function(app) {
           err: 400,
           msg: 'enter username and password'
         });
-      } else {
+      } else if (user[0] != undefined) {
       user[0].comparePassword(req.body.password, function(err, isMatch) {
         if (isMatch) {
           console.log('Login Successful');
@@ -28,6 +28,8 @@ module.exports.controller = function(app) {
           });
         }
       });
+    } else {
+      console.log("wrong username/password");
     }
     });
   });

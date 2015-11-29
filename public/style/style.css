@@ -88,7 +88,12 @@ body {
 #logout{
   display: none;
   border-style: outset;
-  float: right; 
+  float: right;
+}
+
+button {
+  background-color: #1579B6;
+  color: white;
 }
 
 .btn {
@@ -104,6 +109,12 @@ body {
   border-radius: 2px;
   background-color: #1579B6;
   color: white;
+}
+
+input {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
 }
 
 .input-box {

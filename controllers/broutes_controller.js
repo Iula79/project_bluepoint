@@ -69,6 +69,7 @@ module.exports.controller = function(app) {
     User.findById(req.params.id).exec(function(err, user){
       Broute.remove({_id: req.params.brouteid}, function(err){
         if(err) console.log(err);
+         User.update( {Broute:$DeletedDocRef}, {$set: {Broute:null} } );
         console.log("deleted this broute");
         res.send('deleted this broute');
       });

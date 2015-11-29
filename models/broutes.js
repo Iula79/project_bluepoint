@@ -7,7 +7,6 @@ var BrouteSchema = new mongoose.Schema({
 
 BrouteSchema.pre('remove', function(next) {
   var thisBroute = this;
-// Remove all the assignment docs that reference the removed person.
     thisBroute.model('User').remove({ broutes: thisBroute._id }, next);
 });
 

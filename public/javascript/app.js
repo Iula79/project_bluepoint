@@ -348,11 +348,10 @@ function signUp(){
   $('#sign-up-box').animate({
     opacity: '0.0'
   })
-
 };
 
 function signIn() {
-  console.log("signing in")
+  console.log("signing in");
   var userObject = {
     name: $('#username').val(),
     password: $('#password').val()
@@ -399,7 +398,6 @@ var showUpdateForm = function(){
   var updateForm = $("<div>", {
     id: "update-form",
   });
-
   var updateName = $("<input>", {
     id: "update-name",
     placeholder: "Update Name"
@@ -412,13 +410,24 @@ var showUpdateForm = function(){
     id: "submit-update",
     text: "Change Profile"
   });
+  var currentProfile = $("<p>", {
+    id: "current-profile",
+    text: "Name: " + userID[0].name + ", Email: " + userID[0].email
+  });
+  var cancelUpdate = $("<button>", {
+    id: "cancel-update",
+    text: "Cancel Update"
+  })
   $(updateForm).remove();
+  $(updateForm).append(currentProfile);
   $(updateForm).append(updateName);
   $(updateForm).append(updateEmail);
   $(updateForm).append(submitUpdate);
+  $(updateForm).append(cancelUpdate);
   $('#user-data').append(updateForm);
 
   submitUpdate.on('click', changeProfile);
+  cancelUpdate.on('click', removeUpdateForm);
 };
 
 var changeProfile = function(){
@@ -439,8 +448,16 @@ var changeProfile = function(){
 
 var removeUpdateForm = function(){
   $('#update-form').detach();
+  $.ajax({
+    url: "/users/" + userID[0]._id,
+    method: "GET"
+  }).done(updateUserID);
 };
-
+var updateUserID = function(data){
+  userID[0].name = data.name;
+  userID[0].email = data.email;
+  console.log(userID);
+}
 
 function showBroutes(data) {
   var savedBroutesDiv = $("<div>", {
