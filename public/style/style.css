@@ -1,49 +1,54 @@
 body {
-  background-color: rgba(11, 118, 228, 0.36);
+  background-color: white;
+  background: -webkit-linear-gradient(top, white, rgba(0,0,0,.5));
+  background: -moz-linear-gradient(top, white, rgba(0,0,0,.5));
 }
 
 #logo {
   position: relative;
   padding-left: 30%;
+  height: 200px;
 }
 
 #container{
   margin: 5px;
   height: 600px;
   padding: 50px;
+  width: 100%;
 }
 
 #map {
   margin: 5px;
-  height: 520px;
+  height: 100%;
   width: 40%;
-  padding-left: 100px;
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
-  float: right;
+  border-color:#042E49;
+  float: left;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 #top-right{
   float: right;
   position: relative;
-  width: 200px;
+  width: 20%;
   margin: 5px;
 }
 #login-bar{
   border: double;
-  background-color: rgba(157, 157, 157, 0.72);
+  background-color: rgba(209, 209, 209, 0.86);
   position: relative;
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 #floating-panel {
   margin: 5px;
-  width: 300px;
-  background-color:  rgba(157, 157, 157, 0.72);
+  width: 35%;
+  background-color:  rgba(209, 209, 209, 0.86);
   border: double;
   display: block;
   position: relative;
@@ -51,9 +56,10 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   position: relative;
   float: right;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 #directionsPanel{
@@ -66,7 +72,7 @@ body {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
   background-color: rgba(11, 118, 228, 0.36);
 }
 
@@ -74,54 +80,61 @@ body {
   opacity: 0.0;
   position: relative;
   float: right;
-  background: rgba(157, 157, 157, 0.72);
+  background: rgba(209, 209, 209, 0.86);
   width: 170px;
   border: double;
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
 }
 
 .form-control {
-  margin: 10px;
-  width: 150px;
-  text-align: justify;
+  width: 80%;
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+  text-align: left;
 }
 
 #logout{
   display: none;
   border-style: outset;
   float: right;
-<<<<<<< HEAD
-=======
+  border-radius: 10px;
+  
 }
 
 button {
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
->>>>>>> ae03b6a40ebbcbeeb7f561d538973f7ac661a935
+  border-radius: 10px;
+  border-style: outset;
 }
 
 .btn {
   margin: 10px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
   float: right;
+  border-radius: 10px;
+  border-style: outset;
 }
 
 #show-sign-up {
   margin: 30px;
   border-style: outset;
-  border-radius: 2px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
+  border-radius: 10px;
 }
 
 input {
   margin: 5px;
   border-style: inset;
   border-radius: 5px;
+  width: 80%;
 }
 
 .input-box {
@@ -132,7 +145,7 @@ input {
 
 #submit {
   margin: 5px;
-  background-color: #1579B6;
+  background-color:#042E49;
   color: white;
 }
 
@@ -141,19 +154,27 @@ iframe {
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
-  border-color: #1579B6;
+  border-color:#042E49;
 }
 
 #elevation_chart {
-  background-color:rgba(198, 198, 198, 0);
-  width: 900px;
-  left: 200px;
+  background-color: white;
+  background: -webkit-linear-gradient(bottom, white, rgba(0,0,0,.4));
+  background: -moz-linear-gradient(bottom, white, rgba(0,0,0,.4));
 }
 
 #user-data {
   position: relative;
 }
-/*.canvas {
-    height:400;
-    width:500;
-}*/
+.canvas {
+  display: inline;
+  position: relative;
+  float: left;
+  border: solid;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  background-color: white;
+  margin: 5px;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
