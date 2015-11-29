@@ -9,6 +9,8 @@ To accomplish this task we utilized the:
 + Express
 + MongoDB
 
+### App abilities and functionality: 
+
 The Google Maps API allowed us to get route data as well as possible alternative routes to our destination. 
 We then had to split up the route data into legs and run a seperate elevation function on those legs. We were able to then utilized this data
 and the standard deviation from the average elevation to determine which path had the fewest number of hills and elevation changes. 
