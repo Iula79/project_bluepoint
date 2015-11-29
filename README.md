@@ -3,7 +3,8 @@
 
 ### Mission Statement: 
 Our app was designed to find the path between two points that offers the fewest number of hills.  Thus, making your trip a lot easier.
-To accomplish this task we utilized the: 
+
+### To accomplish this task we utilized: 
 + [Google Maps Javascript API] (https://developers.google.com/maps/documentation/javascript/). 
 + NodeJS
 + Express
