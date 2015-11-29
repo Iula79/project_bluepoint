@@ -26,9 +26,10 @@ function loadGoogle() {
     }
 }
 
-function initMap() {
-    var markerArray = [];
 
+function initMap() {
+
+var markerArray = [];
 
     // Instantiate a directions service.
     var directionsService = new google.maps.DirectionsService();
@@ -62,34 +63,34 @@ function initMap() {
         draggable: true
     });
 
-    function setMapOnAll(map) {
-  for (var i = 0; i < markerArray.length; i++) {
-    markerArray[i].setMap(null);
-  }
-}
-
-    function clearMarkers() {
-  setMapOnAll(null);
-}
-    function deleteMarkers() {
-  clearMarkers();
-  // markerArray = [];
-  console.log(markerArray);
-  console.log("deleteMarkers");
-}
-
-
     // Instantiate an info window to hold step text.
     var stepDisplay = new google.maps.InfoWindow();
-
-
-
 
     map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
     // Listen to change events from the start and end lists.
     var onChangeHandler = function() {
-      deleteMarkers();
         //console.log("change handler");
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: {
+                lat: 40.771,
+                lng: -73.974
+            },
+            mapTypeControl: true,
+            mapTypeControlOptions: {
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.TOP_CENTER
+            },
+            zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.LEFT_CENTER
+            },
+            scaleControl: true,
+            streetViewControl: true,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.LEFT_TOP
+            }
+        });
         calculateAndDisplayRoute(
             directionsDisplay, directionsService, markerArray, stepDisplay, map);
 
@@ -103,9 +104,9 @@ function initMap() {
     function calculateAndDisplayRoute(directionsDisplay, directionsService,
         markerArray, stepDisplay, map) {
         // First, remove any existing markers from the map.
-        for (var i = 0; i < markerArray.length; i++) {
-            markerArray[i].setMap(null);
-        }
+        // for (var i = 0; i < markerArray.length; i++) {
+        //     markerArray[i].setMap(null);
+        // }
 
         // Retrieve the start and end locations and create a DirectionsRequest using
         // WALKING or BICYCLING directions.
@@ -433,7 +434,7 @@ var userID = "";
     });
     var userGreeting = $("<p>", {
       id: "user-greeting",
-      text: "Hello " + userID[0].name,
+      text: "Hello " + userID[0].name
     });
     var saveButton = $("<button>", {
       text: "Save Broute",
@@ -442,8 +443,7 @@ var userID = "";
 
     $('#user-container').append(userDiv);
     $(userDiv).prepend($("<hr>"));
-    $(userDiv).append(userGreeting);
-    $(userDiv).append(saveButton);
+    $(userDiv).append(userGreeting, saveButton);
     $('#logout').css({'display': 'block'});
     $('#login').css({'display': 'none'});
     $('#username').val('');
@@ -489,11 +489,7 @@ var showUpdateForm = function(){
     text: "Cancel Update"
   })
   $(updateForm).remove();
-  $(updateForm).append(currentProfile);
-  $(updateForm).append(updateName);
-  $(updateForm).append(updateEmail);
-  $(updateForm).append(submitUpdate);
-  $(updateForm).append(cancelUpdate);
+  $(updateForm).append(currentProfile, updateName, updateEmail, submitUpdate, cancelUpdate);
   $('#user-data').append(updateForm);
 
   submitUpdate.on('click', changeProfile);
@@ -606,9 +602,7 @@ function appendBroute(data) {
     var brouteTag = $("<p>", {
       text: "Start: " + brouteStart + ", End: " + brouteEnd
     });
-    $(oneBroute).append(brouteTag);
-    $(oneBroute).append(loadRouteButton);
-    $(oneBroute).append(deleteButton);
+    $(oneBroute).append(brouteTag, loadRouteButton, deleteButton);
     $('#saved-broutes-div').append(oneBroute);
     });
     $('.load-route-button').on('click', function(){
@@ -628,6 +622,6 @@ function appendBroute(data) {
 var getRouteValues = function(data){
   $("#start").val(data.startPoint);
   $("#end").val(data.endPoint);
-  initMap();
+  // initMap();
   $("#submit").click();
 };
