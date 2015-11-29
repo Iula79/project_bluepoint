@@ -1,5 +1,5 @@
 #Project Blue Point Route Finder: 
-***"Because your commute doesn't have to be an uphill battle"*
+*"Because your commute doesn't have to be an uphill battle"*
 --------------------
 
 ### Mission Statement: 
