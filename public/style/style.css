@@ -76,6 +76,14 @@ body {
   background-color: rgba(11, 118, 228, 0.36);
 }
 
+#elevation_chart {
+  height: 306px;
+  left: 10%;
+  position: absolute;
+  display: inline;
+  background-color: inherit;
+}
+
 #sign-up-box{
   opacity: 0.0;
   position: relative;
@@ -149,7 +157,6 @@ input {
   color: white;
 }
 
-<<<<<<< HEAD
 iframe {
   position: relative;
   display: inline;
@@ -157,13 +164,6 @@ iframe {
   border-radius: 10px;
   border-width: 3px;
   border-color:#042E49;
-}
-
-#elevation_chart {
-  display: inline;
-  background-color: white;
-  background: -webkit-linear-gradient(bottom, white, rgba(0,0,0,.4));
-  background: -moz-linear-gradient(bottom, white, rgba(0,0,0,.4));
 }
 
 #user-data {
@@ -180,8 +180,11 @@ iframe {
   background-color: white;
   margin: 5px;
   box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
-=======
+}
+
 #user-greeting {
   font-size: 20px;
->>>>>>> 843088977a14f9cc7e01574af3eb4edda8b20cb3
+}
+#saved-broutes-div {
+  margin: 5px;
 }

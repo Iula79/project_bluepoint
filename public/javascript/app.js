@@ -224,7 +224,7 @@ function initMap() {
                     $("<canvas>", {
                         'id': "MyChart" + d,
                         'class': "canvas"
-                    }).appendTo('#container');
+                    }).appendTo('#elevation_chart');
 
                     // Display a polyline of the elevation path.
                     // new google.maps.Polyline({
