@@ -2,7 +2,6 @@ body {
   background-color: white;
   background: -webkit-linear-gradient(top, white, rgba(0,0,0,.5));
   background: -moz-linear-gradient(top, white, rgba(0,0,0,.5));
-  height: 100%;
 }
 
 #logo {
@@ -150,9 +149,10 @@ input {
   color: white;
 }
 
+<<<<<<< HEAD
 iframe {
   position: relative;
-  display: inline; 
+  display: inline;
   border-style: groove;
   border-radius: 10px;
   border-width: 3px;
@@ -180,4 +180,8 @@ iframe {
   background-color: white;
   margin: 5px;
   box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+=======
+#user-greeting {
+  font-size: 20px;
+>>>>>>> 843088977a14f9cc7e01574af3eb4edda8b20cb3
 }

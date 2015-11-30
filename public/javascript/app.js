@@ -31,6 +31,7 @@ function loadGoogle() {
     }
 }
 
+
 function initMap() {
 
     var markerArray = [];
@@ -69,12 +70,8 @@ function initMap() {
 
     });
 
-
     // Instantiate an info window to hold step text.
     var stepDisplay = new google.maps.InfoWindow();
-
-
-
 
     map.data.loadGeoJson('https://storage.googleapis.com/maps-devrel/google.json');
     // Listen to change events from the start and end lists.
@@ -113,9 +110,9 @@ function initMap() {
     function calculateAndDisplayRoute(directionsDisplay, directionsService,
         markerArray, stepDisplay, map) {
         // First, remove any existing markers from the map.
-        for (var i = 0; i < markerArray.length; i++) {
-            markerArray[i].setMap(null);
-        }
+        // for (var i = 0; i < markerArray.length; i++) {
+        //     markerArray[i].setMap(null);
+        // }
 
         // Retrieve the start and end locations and create a DirectionsRequest using
         // WALKING or BICYCLING directions.
@@ -475,16 +472,22 @@ function signIn() {
 
 var userID = "";
   function getSaveButton(data) {
+    userID = data;
     var userDiv = $("<div>", {
       id: "user-data"
+    });
+    var userGreeting = $("<p>", {
+      id: "user-greeting",
+      text: "Hello " + userID[0].name
     });
     var saveButton = $("<button>", {
       text: "Save Broute",
       id: "save-broute-button"
     });
-    userID = data;
-    $('body').append(userDiv);
-    $(userDiv).append(saveButton);
+
+    $('#user-container').append(userDiv);
+    $(userDiv).prepend($("<hr>"));
+    $(userDiv).append(userGreeting, saveButton);
     $('#logout').css({'display': 'block'});
     $('#login').css({'display': 'none'});
     $('#username').val('');
@@ -530,11 +533,7 @@ var showUpdateForm = function(){
     text: "Cancel Update"
   })
   $(updateForm).remove();
-  $(updateForm).append(currentProfile);
-  $(updateForm).append(updateName);
-  $(updateForm).append(updateEmail);
-  $(updateForm).append(submitUpdate);
-  $(updateForm).append(cancelUpdate);
+  $(updateForm).append(currentProfile, updateName, updateEmail, submitUpdate, cancelUpdate);
   $('#user-data').append(updateForm);
 
   submitUpdate.on('click', changeProfile);
@@ -567,6 +566,7 @@ var removeUpdateForm = function(){
 var updateUserID = function(data){
   userID[0].name = data.name;
   userID[0].email = data.email;
+  $("#user-greeting").text("Hello " + userID[0].name);
   console.log(userID);
 }
 
@@ -646,9 +646,7 @@ function appendBroute(data) {
     var brouteTag = $("<p>", {
       text: "Start: " + brouteStart + ", End: " + brouteEnd
     });
-    $(oneBroute).append(brouteTag);
-    $(oneBroute).append(loadRouteButton);
-    $(oneBroute).append(deleteButton);
+    $(oneBroute).append(brouteTag, loadRouteButton, deleteButton);
     $('#saved-broutes-div').append(oneBroute);
     });
     $('.load-route-button').on('click', function(){
