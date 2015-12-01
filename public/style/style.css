@@ -1,0 +1,190 @@
+body {
+  background-color: white;
+  background: -webkit-linear-gradient(top, white, rgba(0,0,0,.5));
+  background: -moz-linear-gradient(top, white, rgba(0,0,0,.5));
+}
+
+#logo {
+  position: relative;
+  padding-left: 30%;
+  height: 200px;
+}
+
+#container{
+  margin: 5px;
+  height: 600px;
+  padding: 50px;
+  width: 100%;
+}
+
+#map {
+  margin: 5px;
+  height: 100%;
+  width: 40%;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  float: left;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
+#top-right{
+  float: right;
+  position: relative;
+  width: 20%;
+  margin: 5px;
+}
+#login-bar{
+  border: double;
+  background-color: rgba(209, 209, 209, 0.86);
+  position: relative;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
+
+#floating-panel {
+  margin: 5px;
+  width: 35%;
+  background-color:  rgba(209, 209, 209, 0.86);
+  border: double;
+  display: block;
+  position: relative;
+  text-align: left;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  position: relative;
+  float: right;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
+
+#directionsPanel{
+  display: none;
+  float: right;
+  position: relative;
+  width: auto;
+  height: 400px;
+  overflow: auto;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  background-color: rgba(11, 118, 228, 0.36);
+}
+
+#elevation_chart {
+  height: 306px;
+  left: 10%;
+  position: absolute;
+  display: inline;
+  background-color: inherit;
+}
+
+#sign-up-box{
+  opacity: 0.0;
+  position: relative;
+  float: right;
+  background: rgba(209, 209, 209, 0.86);
+  width: 170px;
+  border: double;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
+
+.form-control {
+  width: 80%;
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+  text-align: left;
+}
+
+#logout{
+  display: none;
+  border-style: outset;
+  float: right;
+  border-radius: 10px;
+
+}
+
+button {
+  background-color:#042E49;
+  color: white;
+  border-radius: 10px;
+  border-style: outset;
+}
+
+.btn {
+  margin: 10px;
+  background-color:#042E49;
+  color: white;
+  float: right;
+  border-radius: 10px;
+  border-style: outset;
+}
+
+#show-sign-up {
+  margin: 30px;
+  border-style: outset;
+  background-color:#042E49;
+  color: white;
+  border-radius: 10px;
+}
+
+input {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+  width: 80%;
+}
+
+.input-box {
+  margin: 5px;
+  border-style: inset;
+  border-radius: 5px;
+}
+
+#submit {
+  margin: 5px;
+  background-color:#042E49;
+  color: white;
+}
+
+iframe {
+  position: relative;
+  display: inline;
+  border-style: groove;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+}
+
+#user-data {
+  position: relative;
+}
+.canvas {
+  display: inline;
+  position: relative;
+  float: left;
+  border: solid;
+  border-radius: 10px;
+  border-width: 3px;
+  border-color:#042E49;
+  background-color: white;
+  margin: 5px;
+  box-shadow: 5px 5px 5px rgba(191, 191, 191, 0.81);
+}
+
+#user-greeting {
+  font-size: 20px;
+}
+#saved-broutes-div {
+  margin: 5px;
+}
